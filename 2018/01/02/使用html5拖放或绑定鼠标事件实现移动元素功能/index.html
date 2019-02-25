@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  使用Html5拖放或绑定鼠标事件实现移动元素功能 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		使用html5拖放或绑定鼠标事件实现移动元素功能
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Jan 02, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">3449
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>要实现一个点击元素，拖动元素到页面上你想要在的地方。如何实现这个功能呢？我想到了两种实现方法：第一种就是最近学习的html5的drag和drop功能；第二种是绑定鼠标的onmousedown，onmousemove事件。然后这两种实现方式又有什么区别呢？</p>
+<a id="more"></a>
+<h1 id="普通鼠标事件"><a href="#普通鼠标事件" class="headerlink" title="普通鼠标事件"></a>普通鼠标事件</h1><p>我们把body中的div元素设定为我们要移动的元素，移动的位置整个页面。这种鼠标事件的响应周期是350毫秒。具体实现如下：</p>
+<ul>
+<li>鼠标点击下时，计算鼠标点击的位置距离DIV左边和上边的距离</li>
+<li>鼠标移动时，计算处DIV元素左上角是否在页面可以移动的区域内</li>
+<li>合理设置DIV的top和left值，实现元素跟随鼠标移动的功能。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>实现鼠标拖放<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div&#123;</span></span><br><span class="line"><span class="undefined">        position: absolute;</span></span><br><span class="line"><span class="undefined">        width: 200px;</span></span><br><span class="line"><span class="undefined">        height: 200px;</span></span><br><span class="line"><span class="undefined">        background: #369</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span> </span><br><span class="line">     <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> oDiv = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 鼠标点击的位置距离DIV左边的距离 </span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> disX = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 鼠标点击的位置距离DIV顶部的距离</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> disY = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">    oDiv.onmousedown = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(e);</span></span><br><span class="line"><span class="undefined">        disX = e.clientX - oDiv.offsetLeft;</span></span><br><span class="line"><span class="undefined">        disY = e.clientY- oDiv.offsetTop;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.onmousemove = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 横轴坐标</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> leftX = e.clientX - disX;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 纵轴坐标</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> topY =e.clientY - disY;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span>( leftX &lt; <span class="number">0</span> )&#123;</span></span><br><span class="line"><span class="undefined">                leftX = 0;</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 获取浏览器视口大小 document.document.documentElement.clientWidth</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">else</span> <span class="keyword">if</span>(  leftX &gt; <span class="built_in">document</span>.documentElement.clientWidth - oDiv.offsetWidth )&#123;</span></span><br><span class="line"><span class="javascript">                leftX = <span class="built_in">document</span>.documentElement.clientWidth - oDiv.offsetWidth;</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span>( topY &lt; <span class="number">0</span> )&#123;</span></span><br><span class="line"><span class="undefined">                topY = 0;</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">else</span> <span class="keyword">if</span>( topY &gt; <span class="built_in">document</span>.documentElement.clientHeight -oDiv.offsetHeight )&#123;</span></span><br><span class="line"><span class="javascript">                topY = <span class="built_in">document</span>.documentElement.clientHeight - oDiv.offsetHeight;</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            oDiv.style.left = leftX + <span class="string">"px"</span>;</span></span><br><span class="line"><span class="javascript">            oDiv.style.top = topY+<span class="string">"px"</span>;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.onmouseup = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.onmousemove = <span class="literal">null</span>;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.onmouseup = <span class="literal">null</span>;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"> &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="利用html5的drag和drop功能"><a href="#利用html5的drag和drop功能" class="headerlink" title="利用html5的drag和drop功能"></a>利用html5的drag和drop功能</h1><p>重点是:</p>
+<ul>
+<li>要移动元素的draggable属性必须为true</li>
+<li>dragover默认浏览器效果是drop失效，所以必须阻止默认事件。</li>
+<li>dragover事件必须用addEventListener绑定，否则不生效。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>JSONP实现跨域2<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div&#123;</span></span><br><span class="line"><span class="undefined">        position: absolute;</span></span><br><span class="line"><span class="undefined">        width: 200px;</span></span><br><span class="line"><span class="undefined">        height: 200px;</span></span><br><span class="line"><span class="undefined">        background: #369</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span> </span><br><span class="line">     <span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">'true'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">//第一种方法</span></span></span><br><span class="line"><span class="javascript"> <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">//获取被拖拽元素</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> item = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'div'</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">    <span class="comment">//鼠标点击的位置离div左边和上边的距离，现在设置为0</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> disX = <span class="number">0</span>, disY = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">    <span class="comment">//div在页面上的位置。</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> leftX = <span class="number">0</span>, topY = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">    item.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> e = event || <span class="built_in">window</span>.event;</span></span><br><span class="line"><span class="javascript">        <span class="comment">//记录鼠标点击位置和div的距离,鼠标当前位置剪去div离body的位置</span></span></span><br><span class="line"><span class="undefined">        disX = e.clientX - item.offsetLeft;</span></span><br><span class="line"><span class="undefined">        disY = e.clientY - item.offsetTop;</span></span><br><span class="line"><span class="javascript">        event.dataTransfer.effectAllowed = <span class="string">'all'</span>;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    item.ondragend = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> e = event || <span class="built_in">window</span>.event;</span></span><br><span class="line"><span class="undefined">        leftX = e.clientX - disX;</span></span><br><span class="line"><span class="undefined">        topY = e.clientY - disY;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span>(leftX &lt; <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="undefined">            leftX = 0;</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (leftX &gt; <span class="built_in">document</span>.documentElement.clientWidth - item.offsetWidth) &#123;</span></span><br><span class="line"><span class="javascript">            leftX = <span class="built_in">document</span>.documentElement.clientWidth - item.offsetWidth;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (topY &lt; <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="undefined">            topY = 0;</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (topY &gt; <span class="built_in">document</span>.documentElement.clientHeight - item.offsetHeight) &#123;</span></span><br><span class="line"><span class="javascript">            topY = <span class="built_in">document</span>.documentElement.clientHeight - item.offsetHeight;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        item.style.left = leftX + <span class="string">"px"</span>;</span></span><br><span class="line"><span class="javascript">        item.style.top = topY + <span class="string">"px"</span>;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.addEventListener(<span class="string">"dragover"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span></span><br><span class="line"><span class="undefined">        event.preventDefault();</span></span><br><span class="line"><span class="javascript">        <span class="comment">// event.dataTransfer.dropEffect = 'link';</span></span></span><br><span class="line"><span class="undefined">    &#125;);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>这两种实现方式究竟有什么区别？当然让你自己去尝试一下啦。<br>总之，第一种实现的效果元素跟随，第二种被拖动元素在没有放下前一直在原位置有占位，同时跟随鼠标的效果是半透明的。<br><img src="/images/drag_01.png"></p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/html/">html</a> <a class="tag-link" href="/tags/js/">js</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2017/08/13/markdown/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2017/08/13/markdown/">
+          记录markdown的相关语法</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2019/02/24/常见排序算法的原理与实现/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2019/02/24/常见排序算法的原理与实现/">
+            常见排序算法的原理与实现</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#普通鼠标事件"><span class="toc-inner-text">普通鼠标事件</span></a></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#利用html5的drag和drop功能"><span class="toc-inner-text">利用html5的drag和drop功能</span></a></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#区别"><span class="toc-inner-text">区别</span></a></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

@@ -97,12 +97,12 @@
 	   
 	<div class="article-header">
 	    
-		<a class="article-title" href="/2019/02/23/fds/">fds</a>  
+		<a class="article-title" href="/2019/02/25/position-attr/">用js获取浏览器位置属性详解(offsetLeft, pageX, clientX, layerX, scrollLeft等等)</a>  
 	       
 		 
 
 		<div class="article-meta">
-			<time>Feb 23, 2019</time>
+			<time>Feb 25, 2019</time>
 			
 		</div>
 	</div>
@@ -112,13 +112,15 @@
 
     
 	<div class="typo article-excerpt">	
-		 
-			
+		
+			<p>在实际运用中，我们经常要获取鼠标点击事件的位置和元素的位置信息。针对页面、浏览器、屏幕，各大厂商也有自己设置的各类属性。所以他们究竟有什么不同呢？哪个属性才是我们想要的呢？</p>
+<h1 id="event属性"><a href="#event属性" class="headerlink" title="event属性"></a>event属性</h1><img src="/images/position_attr_01.png">
+<p>观察上图，对于X坐标的值，我们一个鼠标事件有clientX，layerX，movementX，offsetX，pageX，screenX，x 多个属性值。它们分别代表什么呢？</p>
 		  	  
 	</div>
 
 	<div class="article-bottom">
-		<a class="article-readmore" href="/2019/02/23/fds/">Continue</a> 	
+		<a class="article-readmore" href="/2019/02/25/position-attr/">Continue</a> 	
 	</div>	
     
 </article>     
@@ -131,16 +133,16 @@
 	   
 	<div class="article-header">
 	    
-		<a class="article-title" href="/2019/02/23/测试一下/">测试一下ya</a>  
+		<a class="article-title" href="/2019/02/24/常见排序算法的原理与实现/">常见排序算法的原理与实现</a>  
 	       
 		 
 
 		<div class="article-meta">
-			<time>Feb 23, 2019</time>
+			<time>Feb 24, 2019</time>
 			
 				<span class="iconfont icon-star"></span>
 				            
-						<a class="article-tag" href="/tags/html/">html</a>           
+						<a class="article-tag" href="/tags/算法/">算法</a>           
 				
 			
 		</div>
@@ -152,14 +154,20 @@
     
 	<div class="typo article-excerpt">	
 		
-			<h1 id="nihao"><a href="#nihao" class="headerlink" title="nihao"></a>nihao</h1><h2 id="12345"><a href="#12345" class="headerlink" title="12345"></a>12345</h2><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper at eu lorem.</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ss</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+			<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>本文介绍了冒泡、选择、插入、归并、快速、堆排序等多种排序的原理、js实现和性能表现。希望能把排序算法发光发热！</p>
+<ul>
+<li>冒泡: 将数组相邻元素两两比较大小，一遍一遍把当前最大值（最小值）冒泡到最后。</li>
+<li>选择: 通过数组循环，记录当前最小值（最大值）所在，再与第一个元素进行元素交换，依次类推。</li>
+<li>插入: 对未排序数据中，从已排序序列中从后向前查询，找到相应的位置进行插入。</li>
+<li>归并: 将数组拆分成n个一个元素的数组，再进行两两合并。从底层往上合并时，左右两边的数组都是排序好的，因此合并容易。</li>
+<li>快排: 选择基准元素（一般是中间），所有小于基准的放在左边，大于基准的放在右边，重复直到结束。</li>
+<li>堆排: 初始化堆后，将最后一个元素与堆顶元素交换后，最后元素移出堆排序序列中，再不断调整堆使满足堆的性质。</li>
+</ul>
 		  	  
 	</div>
 
 	<div class="article-bottom">
-		<a class="article-readmore" href="/2019/02/23/测试一下/">Continue</a> 	
+		<a class="article-readmore" href="/2019/02/24/常见排序算法的原理与实现/">Continue</a> 	
 	</div>	
     
 </article>     
@@ -172,12 +180,19 @@
 	   
 	<div class="article-header">
 	    
-		<a class="article-title" href="/2019/02/23/hello-world/">Hello World</a>  
+		<a class="article-title" href="/2018/01/02/使用html5拖放或绑定鼠标事件实现移动元素功能/">使用html5拖放或绑定鼠标事件实现移动元素功能</a>  
 	       
 		 
 
 		<div class="article-meta">
-			<time>Feb 23, 2019</time>
+			<time>Jan 02, 2018</time>
+			
+				<span class="iconfont icon-star"></span>
+				            
+						<a class="article-tag" href="/tags/html/">html</a>           
+				            
+						<a class="article-tag" href="/tags/js/">js</a>           
+				
 			
 		</div>
 	</div>
@@ -187,22 +202,49 @@
 
     
 	<div class="typo article-excerpt">	
-		 
-			<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+		
+			<p>要实现一个点击元素，拖动元素到页面上你想要在的地方。如何实现这个功能呢？我想到了两种实现方法：第一种就是最近学习的html5的drag和drop功能；第二种是绑定鼠标的onmousedown，onmousemove事件。然后这两种实现方式又有什么区别呢？</p>
 		  	  
 	</div>
 
 	<div class="article-bottom">
-		<a class="article-readmore" href="/2019/02/23/hello-world/">Continue</a> 	
+		<a class="article-readmore" href="/2018/01/02/使用html5拖放或绑定鼠标事件实现移动元素功能/">Continue</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2017/08/13/markdown/">记录markdown的相关语法</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>Aug 13, 2017</time>
+			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><p>我是正文</p>
+<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper at eu lorem.</p>
+</blockquote>
+		  	  
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2017/08/13/markdown/">Continue</a> 	
 	</div>	
     
 </article>     
