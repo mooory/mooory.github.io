@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  用js获取浏览器位置属性详解(offsetLeft, pageX, clientX, layerX, scrollLeft等等) |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		用js获取浏览器位置属性详解(offsetLeft, pageX, clientX, layerX, scrollLeft等等)
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Jan 14, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">1089
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>在实际运用中，我们经常要获取鼠标点击事件的位置和元素的位置信息。针对页面、浏览器、屏幕，各大厂商也有自己设置的各类属性。所以他们究竟有什么不同呢？哪个属性才是我们想要的呢？</p>
+<h1 id="event属性"><a href="#event属性" class="headerlink" title="event属性"></a>event属性</h1><img src="/images/position_attr_01.png">
+<p>观察上图，对于X坐标的值，我们一个鼠标事件有clientX，layerX，movementX，offsetX，pageX，screenX，x 多个属性值。它们分别代表什么呢？</p>
+<a id="more"></a>
+<ul>
+<li>screenX 和 screenY<br>鼠标在屏幕上的坐标。screenX,screenY的最大值不会超过屏幕分辨率。作者有两个屏幕，分辨率为1920 * 1080，所以上图点击浏览器的body左上角时，x值为1920。</li>
+<li>clientX 和 clientY<br>相对于浏览器窗口可视区域的X，Y坐标（窗口坐标）,鼠标滚动后原来的起始点就不是起始点，而是以以浏览器滑动条此刻的滑动到的位置为参考点。<img src="/images/position_attr_03.png"></li>
+<li>pageX 和 pageY<br>鼠标在页面上的位置。从页面左上角开始,即是以页面为参考点,不随滑动条移动而变化。IE中不支持，取而代之的是event.x 和 event.y<br>e.pageX = e.clientX + 水平滚动的距离。</li>
+<li>offsetX 和 offsetY<br>offset意为偏移量，是被点击的元素距左上角为参考原点的长度(不包括border), 如果鼠标进入到border区域，为返回负值。</li>
+<li>layerX 和 layerY<img src="/images/position_attr_05.jpg">
+上图计算公式有点不正确：<br>Chrome: 相对于参考点的长度（包括border）e.layerX = e.offsetX + border-left-width<br>IE: e.layerX = e.pageX</li>
+<li>x 和 y<img src="/images/position_attr_06.jpg">
+</li>
+</ul>
+<p>浏览器的支持情况如下：<br><img src="/images/position_attr_04.png"></p>
+<hr>
+<h1 id="DOM元素"><a href="#DOM元素" class="headerlink" title="DOM元素"></a>DOM元素</h1><p>前面介绍的event对象的位置属性，而我们的dom元素也有相应的属性。<br><img src="/images/placeholder.png" data-src="/images/position_attr_07.png" class="lazyload"><br><img src="/images/placeholder.png" data-src="/images/position_attr_08.png" class="lazyload"><br><img src="/images/placeholder.png" data-src="/images/position_attr_09.png" class="lazyload"><br>我们绘制了一个正方体，宽高200px，border为5px。</p>
+<ul>
+<li>clientLeft / clientTop<br>元素边框border的大小</li>
+<li>clientWidth / clientHeight<br>元素的可见宽度或高度。等于padding+width</li>
+<li>offsetWidth / offsetHeight<br>元素相对父元素的偏移宽度或高度。等于border+padding+width</li>
+<li>scrollWidth / scrollHeight<br>元素的宽度且包括滚动部分。(不包括border)</li>
+<li>offsetLeft / offsetTop<br>该DOM对象的层级关系中离该对象最近的，设置了position的父对象”中的位置。(从最左最上到对象的border的距离，不包括border)</li>
+<li>scrollLeft / scrollTop<br>置当前横向滚动条的坐标值（已经滚动了多少）<img src="/images/placeholder.png" data-src="/images/position_attr_10.gif" class="lazyload"></li>
+</ul>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/js/">js</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/01/10/extend/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/01/10/extend/">
+          关于js“继承”的三二事</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/01/24/pushbox/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2018/01/24/pushbox/">
+            如何实现canvas绘制推箱子功能？</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#event属性"><span class="toc-inner-text">event属性</span></a></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#DOM元素"><span class="toc-inner-text">DOM元素</span></a></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

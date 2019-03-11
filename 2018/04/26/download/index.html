@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  文件下载一二事 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		文件下载一二事
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Apr 26, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">1666
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>最近博主做的项目对文件下载的方式有需求，因此也整理了部分资料以供分享。</p>
+<h2 id="a标签"><a href="#a标签" class="headerlink" title="a标签"></a>a标签</h2><p>这是我们最熟悉的方式。但是对于浏览器可以默认打开的格式：pdf、图像等，就不是默认下载了。<br>所以我们可以使用html5新增的download属性，默认下载。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'file.js'</span>&gt;</span>file.js<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这种方式有两个缺点：<br>1、兼容性不好<br>2、href必须是同源地址，不然download属性不生效，也是默认打开。也就是跨域无效。</p>
+<p>决定是否能下载取决于：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表明文件类型</span></span><br><span class="line">header( <span class="string">"Content-Type: video/mp4"</span> );  </span><br><span class="line"><span class="comment">//类型为下载，同时设置下载文件名</span></span><br><span class="line">header(<span class="string">"Content-Disposition: attachment;filename=qwe.mp4"</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="window-location-href"><a href="#window-location-href" class="headerlink" title="window.location.href"></a>window.location.href</h2><p>使用window.location.href = ‘’也可以获取资源。不能下载默认打开格式也是一样的，不过可以通过<br>window.open() 打开新页面</p>
+<h2 id="createObjectURL"><a href="#createObjectURL" class="headerlink" title="createObjectURL"></a>createObjectURL</h2><p>Gecko 2.0 (Firefox 4 / Thunderbird 3.3 / SeaMonkey 2.1)引入了对DOM window.URL.createObjectURL() 和 window.URL.revokeObjectURL() 方法的支持。这使得你可以创建用于引用任何数据的简单URL字符串，也可以引用一个包括用户电脑上的本地文件的DOM File对象。</p>
+<h3 id="createObjectURL和-revokeObjectURL"><a href="#createObjectURL和-revokeObjectURL" class="headerlink" title="createObjectURL和 revokeObjectURL"></a>createObjectURL和 revokeObjectURL</h3><p>这个对象URL是一个标识File对象的字符串。每次你调用window.URL.createObjectURL()，就会产生一个唯一的对象URL，即使是你对一个已创建了对象URL的文件再次创建一个对象URL。每个创建了的对象URL必须要释放。当文档关闭时，它们会自动被释放。如果你的网页要动态使用它们，你需要显式调用 window.URL.revokeObjectURL()来释放它们。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> blobObject = <span class="keyword">new</span> Blob([<span class="string">"I scream. You scream. We all scream for ice cream."</span>]);</span><br></pre></td></tr></table></figure>
+<p>但是这种方式在IE存在问题，你们看ie的createObjectURL和chrome不一样，chrome带了域名，而ie不带域名。<br>blob:242CACD6-06D5-4145-A6DA-55DBE47409DB<br>blob:null/242CACD6-06D5-4145-A6DA-55DBE47409DB<br>所以要采用ie独有的方法window.navigator.msSaveOrOpenBlob 或者window.navigator.msSaveBlob。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解决浏览器兼容性问题</span></span><br><span class="line"><span class="keyword">if</span>(<span class="string">'msSaveOrOpenBlob'</span> <span class="keyword">in</span> navigator)&#123;</span><br><span class="line">    <span class="comment">// Microsoft Edge and Microsoft Internet Explorer 10-11</span></span><br><span class="line">    <span class="built_in">window</span>.navigator.msSaveOrOpenBlob(fileBlob, name);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">// standard code for Google Chrome, Mozilla Firefox etc</span></span><br><span class="line">    <span class="keyword">let</span> dom = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>);</span><br><span class="line">    dom.download = name;</span><br><span class="line">    dom.style.display = <span class="string">'none'</span>;</span><br><span class="line">    <span class="keyword">let</span> url = URL.createObjectURL(fileBlob);</span><br><span class="line">    dom.href = url;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(dom);</span><br><span class="line">    dom.click();</span><br><span class="line">    URL.revokeObjectURL(url);     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我运用到这个需求是我请求资源必须在header的token中携带自己的身份信息，所以我不能使用a标签进行请求。必须使用请求获取二进制blob数据。</p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/js/">js</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/04/02/bigfile/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/04/02/bigfile/">
+          大文件上传</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/06/02/webpack/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2018/06/02/webpack/">
+            webpack的相关概念与使用</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#a标签"><span class="toc-inner-text">a标签</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#window-location-href"><span class="toc-inner-text">window.location.href</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#createObjectURL"><span class="toc-inner-text">createObjectURL</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#createObjectURL和-revokeObjectURL"><span class="toc-inner-text">createObjectURL和 revokeObjectURL</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

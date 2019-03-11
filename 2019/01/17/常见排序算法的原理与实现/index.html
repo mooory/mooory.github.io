@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  常见排序算法的原理与实现 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		常见排序算法的原理与实现
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Jan 17, 2019
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">5379
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>本文介绍了冒泡、选择、插入、归并、快速、堆排序等多种排序的原理、js实现和性能表现。希望能把排序算法发光发热！</p>
+<ul>
+<li>冒泡: 将数组相邻元素两两比较大小，一遍一遍把当前最大值（最小值）冒泡到最后。</li>
+<li>选择: 通过数组循环，记录当前最小值（最大值）所在，再与第一个元素进行元素交换，依次类推。</li>
+<li>插入: 对未排序数据中，从已排序序列中从后向前查询，找到相应的位置进行插入。</li>
+<li>归并: 将数组拆分成n个一个元素的数组，再进行两两合并。从底层往上合并时，左右两边的数组都是排序好的，因此合并容易。</li>
+<li>快排: 选择基准元素（一般是中间），所有小于基准的放在左边，大于基准的放在右边，重复直到结束。</li>
+<li>堆排: 初始化堆后，将最后一个元素与堆顶元素交换后，最后元素移出堆排序序列中，再不断调整堆使满足堆的性质。</li>
+</ul>
+<a id="more"></a>
+<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><h2 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h2><p>它的基本思想是：</p>
+<ul>
+<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个；</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对，这样在最后的元素应该会是最大的数；</li>
+<li>再对最后一位以外的数组，重复前面的过程，直至全部排序完成。</li>
+</ul>
+<p>举例子：</p>
+<blockquote>
+<p>数组为[3,1,4,2], 3和1交换为[1,3,4,2], 第二位的3和4比较不交换，第三位的4和2交换为[1,3,2,4]。第一遍结束后，最后一个值必然是最大的。再重复以上操作，继续排序[1,3,2]数组,依次循环。</p>
+</blockquote>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; len - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j+<span class="number">1</span>]) &#123;        <span class="comment">//相邻元素两两对比</span></span><br><span class="line">                <span class="keyword">var</span> temp = arr[j+<span class="number">1</span>];        <span class="comment">//元素交换</span></span><br><span class="line">                arr[j+<span class="number">1</span>] = arr[j];</span><br><span class="line">                arr[j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><ul>
+<li>最佳情况：T(n) = O(n)</li>
+<li>最差情况：T(n) = O(n2)</li>
+<li>平均情况：T(n) = O(n2)</li>
+</ul>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><h2 id="算法简介-1"><a href="#算法简介-1" class="headerlink" title="算法简介"></a>算法简介</h2><p>选择排序（Selection Sort）与冒泡排序类似，也是依次对相邻的数进行两两比较。不同之处在于，它不是每比较一次就调换位置，而是一轮比较完毕，找到最大值（或最小值）之后，将其放在正确的位置，其他数的位置不变。</p>
+<p>举例子：</p>
+<blockquote>
+<p>数组为[3,1,4,2], 先假设第一位3为最小值，当前的最小值为3，与第二位1比较，所以1是最小值。然后最小值与第三位4、第四位2比较，最小值不改变。<br>所以第一位3与最小值1进行交换，数组为[1,3,4,2]。<br>然后比较[3,4,2]数组。依次类推。</p>
+</blockquote>
+<h2 id="算法实现-1"><a href="#算法实现-1" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = arr.length;</span><br><span class="line">    <span class="keyword">var</span> minIndex, temp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        minIndex = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt; arr[minIndex]) &#123;     <span class="comment">//寻找最小的数</span></span><br><span class="line">                minIndex = j;                 <span class="comment">//将最小数的索引保存</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        temp = arr[i];</span><br><span class="line">        arr[i] = arr[minIndex];</span><br><span class="line">        arr[minIndex] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析-1"><a href="#算法分析-1" class="headerlink" title="算法分析"></a>算法分析</h2><p>表现最稳定的排序算法之一，最佳最差都是O(n²)的时间复杂度。</p>
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><h2 id="算法简介-2"><a href="#算法简介-2" class="headerlink" title="算法简介"></a>算法简介</h2><p>通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
+<p>举例子：</p>
+<blockquote>
+<p>当前未排序数组为[3,1,4,2]，第二位1从已排序好的[3]插入，变为[1,3]。第三位4在[1,3]中插入变成[1,3,4], 第四位2在已排序好的[1,3,4]中排序变成[1,2,3,4]。</p>
+</blockquote>
+<h2 id="算法实现-2"><a href="#算法实现-2" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertionSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = arr.length;</span><br><span class="line">    <span class="keyword">var</span> preIndex, current;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">        preIndex = i - <span class="number">1</span>;</span><br><span class="line">        current = arr[i];</span><br><span class="line">        <span class="keyword">while</span>(preIndex &gt;= <span class="number">0</span> &amp;&amp; arr[preIndex] &gt; current) &#123;</span><br><span class="line">            arr[preIndex+<span class="number">1</span>] = arr[preIndex];</span><br><span class="line">            preIndex--;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[preIndex+<span class="number">1</span>] = current;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析-2"><a href="#算法分析-2" class="headerlink" title="算法分析"></a>算法分析</h2><ul>
+<li>最佳情况：输入数组按升序排列。T(n) = O(n)</li>
+<li>最坏情况：输入数组按降序排列。T(n) = O(n2)</li>
+<li>平均情况：T(n) = O(n2)</li>
+</ul>
+<h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><h2 id="算法简介-3"><a href="#算法简介-3" class="headerlink" title="算法简介"></a>算法简介</h2><p>前三种时间复杂度太高，效率低，不适合实际使用。<br>基本思想：将两个已经排序的数组合并，要比从头开始排序所有元素来得快。因此，可以将数组拆开，分成n个只有一个元素的数组，然后不断地两两合并，直到全部排序完成。</p>
+<p>举个例子：</p>
+<blockquote>
+<p>[3,1,4,2]数组分成[3,1]和[4,2]两个部分，[3,1]分为[3]和[1]两部分，再合成[1,3]。同理右边合成了[2,4]。再将两者进行合并为[1,2,3,4]</p>
+</blockquote>
+<h2 id="算法实现-3"><a href="#算法实现-3" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = arr.length;</span><br><span class="line">    <span class="keyword">if</span>(len &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> middle = <span class="built_in">Math</span>.floor(arr.length/<span class="number">2</span>),</span><br><span class="line">        left = arr.slice(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.slice(middle);</span><br><span class="line">    <span class="keyword">return</span> merge(mergeSort(left), mergeSort(right));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(left.length &amp;&amp; right.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (left[<span class="number">0</span>] &lt;= right[<span class="number">0</span>]) &#123;</span><br><span class="line">            result.push(left.shift());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result.push(right.shift());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(left.length) &#123;</span><br><span class="line">        result = result.concat(left);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(right.length) &#123;</span><br><span class="line">        result = result.concat(right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析-3"><a href="#算法分析-3" class="headerlink" title="算法分析"></a>算法分析</h2><p>和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(n log n）的时间复杂度。代价是需要额外的内存空间。</p>
+<ul>
+<li>最佳情况：T(n) = O(n)</li>
+<li>最差情况：T(n) = O(nlogn)</li>
+<li>平均情况：T(n) = O(nlogn)</li>
+</ul>
+<h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><h2 id="算法简介-4"><a href="#算法简介-4" class="headerlink" title="算法简介"></a>算法简介</h2><p>速度快！效率高！是处理大数据最快的排序算法之一。<br>基本思想：通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。</p>
+<blockquote>
+<p>（1）在数据集之中，选择一个元素作为”基准”（pivot）。<br>（2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。<br>（3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。</p>
+</blockquote>
+<h2 id="算法实现-4"><a href="#算法实现-4" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> quickSort = <span class="function"><span class="keyword">function</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (arr.length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> pivotIndex = <span class="built_in">Math</span>.floor(arr.length/<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">var</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>]; <span class="comment">//获取基准元素的值,同时原数组已经改变了</span></span><br><span class="line">    <span class="keyword">var</span> left = [];</span><br><span class="line">    <span class="keyword">var</span> right = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt; pivot) &#123;</span><br><span class="line">            left.push(arr[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right.push(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> quickSort(left).concat(pivot, quickSort(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析-4"><a href="#算法分析-4" class="headerlink" title="算法分析"></a>算法分析</h2><blockquote>
+<p>快速排序的最坏运行情况是O(n²)，比如说顺序数列的快排。但它的平摊期望时间是O(n log n) ，且O(n log n)记号中隐含的常数因子很小，比复杂度稳定等于O(n log n)的归并排序要小很多。所以，对绝大多数顺序性较弱的随机数列而言，快速排序总是优于归并排序。</p>
+</blockquote>
+<ul>
+<li>最佳情况：T(n) = O(nlogn)</li>
+<li>最差情况：T(n) = O(n2)</li>
+<li>平均情况：T(n) = O(nlogn)</li>
+</ul>
+<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><h2 id="算法简介-5"><a href="#算法简介-5" class="headerlink" title="算法简介"></a>算法简介</h2><p>利用堆的概念来排序的选择排序。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。</p>
+<p>分为两种方法：</p>
+<ol>
+<li>大顶堆：每个节点的值都大于或等于其子节点的值，在堆排序算法中用于升序排列</li>
+<li>小顶堆：每个节点的值都小于或等于其子节点的值，在堆排序算法中用于降序排列</li>
+</ol>
+<p>将待排序列构造成一个大顶堆(或小顶堆)，整个序列的最大值(或最小值)就是堆顶的根结点，将根节点的值和堆数组的末尾元素交换，此时末尾元素就是最大值(或最小值)，然后将剩余的n-1个序列重新构造成一个堆，这样就会得到n个元素中的次大值(或次小值)，如此反复执行，最终得到一个有序序列。</p>
+<h2 id="算法实现-5"><a href="#算法实现-5" class="headerlink" title="算法实现"></a>算法实现</h2><ol>
+<li>根据数组元素构建一个完成二叉树</li>
+<li>初始化大顶推（使父节点值大于子节点的值，从父节点、左孩子节点、右孩子节点三者中选择最大者跟父节点进行交换, 从下往上进行比较交换）</li>
+<li>将堆的根节点（初始化后为当前二叉树的最大元素）与最后一个元素交换，同时把当前这个最大元素去除堆元素排序之外，堆的数量减一。</li>
+<li>因为交换了元素后，很大可能不满足堆的性质了。从堆顶往下进行调整（使父节点值大于子节点的值，从父节点、左孩子节点、右孩子节点三者中选择最大者跟父节点进行交换, 从上往下进行交换）使堆满足堆的性质。重复3、4步骤，直到结束。</li>
+</ol>
+<p>具体的流程图可以参考：<a href="http://www.cnblogs.com/0zcl/p/6737944.html" target="_blank" rel="noopener">http://www.cnblogs.com/0zcl/p/6737944.html</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> heapSize = arr.length, temp;</span><br><span class="line">    <span class="comment">//建堆,初始化堆</span></span><br><span class="line">    <span class="comment">//length / 2 - 1是二叉树中最后一个非叶子结点的序号</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i =  <span class="built_in">Math</span>.floor(heapSize/<span class="number">2</span>) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        heapify(arr, i, heapSize)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//堆进行排序</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> j = heapSize - <span class="number">1</span>; j &gt;= <span class="number">1</span> ; j--) &#123;</span><br><span class="line">        <span class="comment">//将最后一个元素与堆顶元素交换</span></span><br><span class="line">        temp = arr[j];</span><br><span class="line">        arr[j] = arr[<span class="number">0</span>];</span><br><span class="line">        arr[<span class="number">0</span>] = temp;</span><br><span class="line">        heapify(arr, <span class="number">0</span>, j);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapify</span>(<span class="params">arr, i, len</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//l,r是当前节点的左右孩子节点</span></span><br><span class="line">    <span class="comment">//当前节点的下标保存在largest中</span></span><br><span class="line">    <span class="keyword">var</span> l = <span class="number">2</span>*i + <span class="number">1</span>, r = <span class="number">2</span>*i + <span class="number">2</span>, largest = i, temp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(l &lt; len &amp;&amp; arr[l] &gt; arr[largest]) &#123;</span><br><span class="line">        <span class="comment">//左节点大于父节点</span></span><br><span class="line">        largest = l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (r &lt; len &amp;&amp; arr[r] &gt; arr[largest]) &#123;</span><br><span class="line">        <span class="comment">//右节点在父节点、左孩子节点中更大</span></span><br><span class="line">        largest = r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 若i处的值比其左右孩子结点的值小，就将其和最大值进行交换</span></span><br><span class="line">    <span class="keyword">if</span>(largest != i) &#123;</span><br><span class="line">        temp = arr[i];</span><br><span class="line">        arr[i] = arr[largest];</span><br><span class="line">        arr[largest] = temp;</span><br><span class="line">        <span class="comment">// 交换后再查看剩下的堆是否满足堆的性质（以前满足）</span></span><br><span class="line">        heapify(arr, largest, len);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析-5"><a href="#算法分析-5" class="headerlink" title="算法分析"></a>算法分析</h2><p>参考：<a href="https://juejin.im/entry/5883501a128fe10065daaeb0" target="_blank" rel="noopener">https://juejin.im/entry/5883501a128fe10065daaeb0</a></p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/算法/">算法</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2019/01/09/medianTwoArray/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2019/01/09/medianTwoArray/">
+          求取两个排序数组的中位数</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2019/02/26/observer/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2019/02/26/observer/">
+            浅谈发布/订阅模式</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#简介"><span class="toc-inner-text">简介</span></a></li></ol><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#冒泡排序"><span class="toc-inner-text">冒泡排序</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法简介"><span class="toc-inner-text">算法简介</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法实现"><span class="toc-inner-text">算法实现</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法分析"><span class="toc-inner-text">算法分析</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#选择排序"><span class="toc-inner-text">选择排序</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法简介-1"><span class="toc-inner-text">算法简介</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法实现-1"><span class="toc-inner-text">算法实现</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法分析-1"><span class="toc-inner-text">算法分析</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#插入排序"><span class="toc-inner-text">插入排序</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法简介-2"><span class="toc-inner-text">算法简介</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法实现-2"><span class="toc-inner-text">算法实现</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法分析-2"><span class="toc-inner-text">算法分析</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#归并排序"><span class="toc-inner-text">归并排序</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法简介-3"><span class="toc-inner-text">算法简介</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法实现-3"><span class="toc-inner-text">算法实现</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法分析-3"><span class="toc-inner-text">算法分析</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#快速排序"><span class="toc-inner-text">快速排序</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法简介-4"><span class="toc-inner-text">算法简介</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法实现-4"><span class="toc-inner-text">算法实现</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法分析-4"><span class="toc-inner-text">算法分析</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#堆排序"><span class="toc-inner-text">堆排序</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法简介-5"><span class="toc-inner-text">算法简介</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法实现-5"><span class="toc-inner-text">算法实现</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#算法分析-5"><span class="toc-inner-text">算法分析</span></a>
+			</li></ol></li></div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

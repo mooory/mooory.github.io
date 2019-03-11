@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  页面布局的简单介绍 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		页面布局的简单介绍
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Mar 14, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">2887
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>我们的页面布局有多种方式，他们布局的具体原理是什么呢？<br><a id="more"></a></p>
+<h2 id="定位（position）和包含块-（Containing-Block）"><a href="#定位（position）和包含块-（Containing-Block）" class="headerlink" title="定位（position）和包含块 （Containing Block）"></a>定位（position）和包含块 （Containing Block）</h2><p>元素设置属性 （width、height、padding、margin和border， top、right、bottom和left）时有个“相对参考系”，所以这些有“相对参考系”的祖先元素，其容纳区域叫包含块。</p>
+<ul>
+<li><p>static: 无法设置top、right、bottom和left这四个偏移属性，width、height、padding、margin相对参考系” 是其包含块（块级祖先元素（一般是父元素）的content box）（如果祖先元素是inline等，往上找直到找到块级元素）</p>
+</li>
+<li><p>relative： 尺寸属性（width、height等）“相对参考系” 是其包含块（块级祖先元素（一般是父元素）的content box）（如果祖先元素是inline等，往上找直到找到块级元素）偏移属性（top、right、bottom和left）的“相对坐标系”则是其在文档流原来的位置。</p>
+</li>
+</ul>
+<ul>
+<li>absolute：”相对参考系”是离这个元素最近的非static（relative、absolute和fixed）定位的祖先元素。若没有，为根元素<html>的包含块（ICB）——viewport（可视窗口）的大小，比如bottom为0时出现在窗口最下面，但是会随着滚动而改变位置。</html></li>
+</ul>
+<ul>
+<li>fixed：”相对参考系”为浏览器窗口，不跟着滚动而改变位置</li>
+</ul>
+<h2 id="文档流"><a href="#文档流" class="headerlink" title="文档流"></a>文档流</h2><p>文档流内的元素，相互尊重：有序排列，彼此识别</p>
+<p>脱离文档流：父元素无法识别，不参与父元素高度计算。会出现“高度坍塌”。</p>
+<ul>
+<li>将元素设置为浮动元素</li>
+<li>将元素设置为absolute、fixed元素</li>
+</ul>
+<h2 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h2><ul>
+<li><p>浮动起始位置<br>浮动元素（包括左右）的浮动起始位置，为最后一行最左侧的空白位置，而不管空白位置是否能够容纳当前浮动元素；</p>
+</li>
+<li><p>浮动方向<br>左浮动元素的浮动方向为从起始位置向左浮动；<br>右浮动元素的浮动方向为从起始位置向右浮动；</p>
+</li>
+<li><p>浮动结束位置<br>左浮动元素遇到第一个左浮动元素或包含块的最左侧padding时，结束浮动；<br>右浮动元素遇到第一个右浮动元素或包含块的最右侧padding时，结束浮动；</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl"</span> <span class="attr">style</span>=<span class="string">"width: 30%; height: 100px;background: #A71F1F"</span>&gt;</span>左浮动元素－1（width: 30%; height: 100px;）<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl"</span> <span class="attr">style</span>=<span class="string">"width: 30%; height: 200px;background: #FF92CB"</span>&gt;</span>左浮动元素－2（width: 30%; height: 200px;）<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl"</span> <span class="attr">style</span>=<span class="string">"width: 30%; height: 100px;background: #8DB1E6"</span>&gt;</span>左浮动元素－3（width: 30%; height: 100px;）<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl"</span> <span class="attr">style</span>=<span class="string">"width: 30%; height: 100px;background: #B0ED8A"</span>&gt;</span>左浮动元素－4（width: 30%; height: 100px;）<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 30%; height: 100px;background: #7242E0;float: right;"</span>&gt;</span>右浮动元素－4（width: 30%; height: 100px;）<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们调整各类浮动属性，表现如下：</p>
+<img src="/images/layout_01.png">
+<img src="/images/layout_02.png">
+<h2 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h2><p>很多人都已经习惯说清除浮动，但是确切地来说是不准确的。<br>1）清除浮动：清除对应的单词是 clear，对应CSS中的属性是 clear：left | right | both | none；<br>2）闭合浮动：更确切的含义是使浮动元素闭合，从而减少浮动带来的影响。</p>
+<p>清除浮动：<br>clear：取值 left、right和both， 跟当前元素的是否是浮动元素或浮动方向没有任何关系，而取决于其前面声明的浮动元素的浮动方向，若取值和前一个浮动元素的浮动方向不同向，则不会换行</p>
+<p>闭合浮动：</p>
+<ul>
+<li>在想要清除浮动的元素后面加：<div style="clear:both;"></div></li>
+<li>使用 br标签和其自身的 html属性：br 有 clear=“all | left | right | none” 属性</li>
+<li>父元素设置为BFC元素</li>
+<li>使用:after 伪元素<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 为兼容IE6,IE7，因为ie6,ie7不能用after伪类 */</span></span><br><span class="line"><span class="selector-class">.clearfix</span>&#123;            </span><br><span class="line">    <span class="attribute">zoom</span>:<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>清除浮动后margin合并问题：<br>两个浮动元素之间，其垂直方向上的margin不会发生合并<br>非浮动的块级元素和浮动元素之间，其垂直方向上的margin会发生合并</p>
+<img src="/images/layout_03.png">
+<h2 id="行框"><a href="#行框" class="headerlink" title="行框"></a>行框</h2><p>包含IFC内部的所有子元素的虚拟矩形区域，形成的每一行，称为line box</p>
+<p>行高计算：</p>
+<ol>
+<li>一个元素的行框高度，可由该元素的line-height属性设置；</li>
+<li>一个元素的行框高度，可由不可置换（span、a、label等）子元素的line-height属性 和 内容高度（text-top到text-bottom的垂直距离）影响设置；</li>
+<li>一个元素的行框高度，可由可置换行内元素（如img）或display属性为inline-block、inline-table的这一类inline-block-level子元素的margin box高度和vertical-align属性决定，当vertical-align为top或bottom时，行框的高度达到最小，刚好为子元素的margin box高度；</li>
+</ol>
+<img src="/images/layout_04.png">
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background: #A71F1F;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">'background: #7242E0;line-height: 64px;'</span>&gt;</span>line height 64<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">'background: #B0ED8A;line-height: 32p;'</span>&gt;</span>line height 32<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"./timg2.jpg"</span> <span class="attr">style</span>=<span class="string">'height: 300px'</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<img src="/images/layout_05.png">
+<p>vertical-align( 设置inline-level元素自身在“行框”内的垂直对齐方式，其控制范围在一行内。较常用的值有top、middle、baseline（默认值）和bottom)<br>vertical-align属性的另一个作用：就是table-cell元素用于控制其内部子元素在垂直方向上的对齐方式，而且这些子元素的类型不受限制，不仅可以是span，而且可以是div,图片也可以。</p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/css/">css</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/03/05/BFC/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/03/05/BFC/">
+          BFC究竟是什么？为啥能解决外边距坍塌问题？</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/03/23/web-worker/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2018/03/23/web-worker/">
+            web worker 使用指南</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#介绍"><span class="toc-inner-text">介绍</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#定位（position）和包含块-（Containing-Block）"><span class="toc-inner-text">定位（position）和包含块 （Containing Block）</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#文档流"><span class="toc-inner-text">文档流</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#浮动"><span class="toc-inner-text">浮动</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#清除浮动"><span class="toc-inner-text">清除浮动</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#行框"><span class="toc-inner-text">行框</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

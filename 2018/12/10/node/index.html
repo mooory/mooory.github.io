@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Node第一步！ |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		node第一步！
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Dec 10, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">11094
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>node在我们前端运用中频繁被提及，现在让我们来了解node是什么！</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。<br>作为异步驱动的 JavaScript 运行时，Node 被设计成可升级的网络应用。<br>Node 的用户不必担心死锁过程, 因为没有锁。Node 中几乎没有函数直接执行 I/O 操作，因此进程从不阻塞。由于没有任何阻塞，可伸缩系统在 Node 中开发是非常合理的。<br><a id="more"></a></p>
+<h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><p>模块化：一个.js文件就称为一个模块，模块的名字就是文件名（去掉.js后缀）<br>模块加载机制被称为CommonJS规范：向外暴露变量可以用module.exports = variable;，引用其他模块暴露的变量，用var ref = require(‘module_name’);，require函数是Node提供的，请求地址会依次在内置模块、全局模块和当前模块下查找。</p>
+<p>module.exports实现：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 准备module对象:</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">    id: <span class="string">'hello'</span>,</span><br><span class="line">    exports: &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> load = <span class="function"><span class="keyword">function</span> (<span class="params">exports, module</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 读取的hello.js代码:</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Hello, '</span> + name + <span class="string">'!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">module</span>.exports = greet;</span><br><span class="line">    <span class="comment">// hello.js代码结束</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> exported = load(<span class="built_in">module</span>.exports, <span class="built_in">module</span>);</span><br><span class="line"><span class="comment">// 保存module:</span></span><br><span class="line">save(<span class="built_in">module</span>, exported);</span><br></pre></td></tr></table></figure></p>
+<p>node为每个模块先准备一个module对象，通过把参数module传递给load()函数，hello.js就顺利地把一个变量传递给了Node执行环境，Node会把module变量保存到某个地方。<br>最后一行由于Node保存了所有导入的module，当我们用require()获取module时，Node找到对应的module，把这个module的exports变量返回，这样，另一个模块就顺利拿到了模块的输出</p>
+<p>Node中exports和module.exports的区别?<br>module.exports 初始值为一个空对象 {}, exports 是指向的 module.exports 的引用, require() 返回的是 module.exports 而不是 exports<br>所以当我们给exports赋值引用变量时，断开了跟module.exports的链接，指向了新的对象。<br>如果我们要输出的是一个函数或数组，那么，只能给module.exports赋值：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span>; &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>给exports赋值是无效的，因为赋值后，module.exports仍然是空对象{}。</p>
+<h3 id="如何寻址"><a href="#如何寻址" class="headerlink" title="如何寻址"></a>如何寻址</h3><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><p>全局对象global和进程对象process（process是global的一个属性）<br><img src="/images/node_01.png"></p>
+<p>Node.js不断执行响应事件的JavaScript函数，直到没有任何响应事件的函数可以执行时，Node.js就退出了。如果我们想要在下一次事件响应中执行代码，可以调用process.nextTick()。<br>node进程本身的事件由process对象来处理，如果我们响应exit事件，就可以在程序即将退出时执行某个回调函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 程序即将退出时的回调函数:</span></span><br><span class="line">process.on(<span class="string">'exit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">code</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'about to exit with code: '</span> + code);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="基本模块"><a href="#基本模块" class="headerlink" title="基本模块"></a>基本模块</h2><p>fs / stream /url /path /http /crypto</p>
+<h3 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>读文件</th>
+<th>写文件</th>
+<th>获取文件大小、创建时间信息</th>
+<th>读取文件流</th>
+<th>写入文件流</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>异步</td>
+<td>fs.readFile()</td>
+<td>fs.writeFile()</td>
+<td>fs.stat()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>同步</td>
+<td>fs.readFileSync()</td>
+<td>fs.writeFileSync()</td>
+<td>fs.statSync()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件驱动</td>
+<td></td>
+<td></td>
+<td></td>
+<td>fs.createReadStream()</td>
+<td>fs.createWriteStream()</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">'rrr.txt'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">        <span class="built_in">console</span>.log(data.length + <span class="string">' bytes'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'utf-8:'</span> + data.toString(<span class="string">'UTF-8'</span>));      </span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//写文件</span></span><br><span class="line"><span class="keyword">var</span> data = <span class="string">'Hello, Node.js'</span>;</span><br><span class="line">fs.writeFile(<span class="string">'output.txt'</span>, data, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'ok.'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取信息</span></span><br><span class="line">fs.stat(<span class="string">'rrr.txt'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, stat</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 是否是文件:</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'isFile: '</span> + stat.isFile());</span><br><span class="line">        <span class="comment">// 是否是目录:</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'isDirectory: '</span> + stat.isDirectory());</span><br><span class="line">        <span class="keyword">if</span> (stat.isFile()) &#123;</span><br><span class="line">            <span class="comment">// 文件大小:</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'size: '</span> + stat.size);</span><br><span class="line">            <span class="comment">// 创建时间, Date对象:</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'birth time: '</span> + stat.birthtime);</span><br><span class="line">            <span class="comment">// 修改时间, Date对象:</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'modified time: '</span> + stat.mtime);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>文件流:<br>流的特点是数据是有序的，而且必须依次读取，或者依次写入，不能像Array那样随机定位。<br>在Node.js中，流也是一个对象，我们只需要响应流的事件就可以了：data事件表示流的数据已经可以读取了，end事件表示这个流已经到末尾了，没有数据可以读取了，error事件表示出错了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rs = fs.createReadStream(<span class="string">'rr2.txt'</span>, <span class="string">'utf-8'</span>);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'DATA:'</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(chunk);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'END'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'ERROR: '</span> + err);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// var ws1 = fs.createWriteStream('rr3.txt', 'utf-8');</span></span><br><span class="line"><span class="comment">// ws1.write('使用Stream写入文本数据...\n');</span></span><br><span class="line"><span class="comment">// ws1.end();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ws2 = fs.createWriteStream(<span class="string">'rr3.txt'</span>);</span><br><span class="line">ws2.write(<span class="keyword">new</span> Buffer(<span class="string">'使用Stream写入二进制数据data...\n'</span>, <span class="string">'utf-8'</span>));</span><br><span class="line">ws2.write(<span class="keyword">new</span> Buffer(<span class="string">'END.\n'</span>, <span class="string">'utf-8'</span>));</span><br><span class="line">ws2.end();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ws1 = fs.createWriteStream(<span class="string">'rr3.txt'</span>, <span class="string">'utf-8'</span>);</span><br><span class="line">ws1.write(<span class="string">'使用Stream写入文本数据...\n'</span>);</span><br><span class="line">rs.pipe(ws1); </span><br><span class="line">ws1.write(<span class="string">'END.'</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="url模块：解析url"><a href="#url模块：解析url" class="headerlink" title="url模块：解析url"></a>url模块：解析url</h3><img src="/images/node_02.png">
+<h3 id="path"><a href="#path" class="headerlink" title="path"></a>path</h3><p>可以方便的构造目录<br>使用path模块可以正确处理操作系统相关的文件路径。在Windows系统下，返回的路径类似于C:\Users\michael\static\index.html，这样，我们就不关心怎么拼接路径了。</p>
+<h3 id="http"><a href="#http" class="headerlink" title="http"></a>http</h3><p>request对象，封装了HTTP请求，调用此对象属性和方法可以获取HTTP请求的信息<br>response对象，封装了HTTP响应，调用此对象的方法，可以把HTTP响应返回给浏览器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request,response</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(request.method+<span class="string">':'</span>+request.url);</span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>:<span class="string">'text/html'</span>&#125;);</span><br><span class="line">    response.end(<span class="string">'&lt;h1&gt;hello  http!&lt;/h1&gt;'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(<span class="number">8080</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'WAITING'</span>);</span><br></pre></td></tr></table></figure>
+<p>一个简单的文件服务器：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> workDir = path.resolve(<span class="string">'.'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">    fs = <span class="built_in">require</span>(<span class="string">'fs'</span>),</span><br><span class="line">    url = <span class="built_in">require</span>(<span class="string">'url'</span>),</span><br><span class="line">    path = <span class="built_in">require</span>(<span class="string">'path'</span>),</span><br><span class="line">    http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从命令行参数获取root目录，默认是当前目录:</span></span><br><span class="line"><span class="keyword">var</span> root = path.resolve(process.argv[<span class="number">2</span>] || <span class="string">'.'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建服务器:</span></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 获得URL的path，类似 '/css/bootstrap.css':</span></span><br><span class="line">    <span class="keyword">var</span> pathname = url.parse(request.url).pathname;</span><br><span class="line">    <span class="comment">// 获得对应的本地文件路径，类似 '/srv/www/css/bootstrap.css':</span></span><br><span class="line">    <span class="keyword">var</span> filepath = path.join(root, pathname);</span><br><span class="line">    <span class="built_in">console</span>.log(filepath);</span><br><span class="line">    <span class="comment">// 获取文件状态:</span></span><br><span class="line">    fs.stat(filepath, <span class="function"><span class="keyword">function</span> (<span class="params">err, stats</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">            <span class="keyword">if</span>(stats.isFile())&#123;</span><br><span class="line">                <span class="comment">// 没有出错并且文件存在:</span></span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'200 '</span> + request.url);</span><br><span class="line">                <span class="comment">// 发送200响应:</span></span><br><span class="line">                response.writeHead(<span class="number">200</span>);</span><br><span class="line">                <span class="comment">// 将文件流导向response:</span></span><br><span class="line">                fs.createReadStream(filepath).pipe(response);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(stats.isDirectory)&#123;</span><br><span class="line">                <span class="keyword">var</span> filepath1 = path.join(filepath,<span class="string">'index.html'</span>);</span><br><span class="line">                <span class="keyword">var</span> filepath2 = path.join(filepath,<span class="string">'default.html'</span>);</span><br><span class="line">                <span class="keyword">if</span>(fs.existsSync(filepath1))&#123;</span><br><span class="line">                    <span class="comment">// 没有出错并且文件存在:</span></span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">'200 '</span> + filepath1);</span><br><span class="line">                    <span class="comment">// 发送200响应:</span></span><br><span class="line">                    response.writeHead(<span class="number">200</span>);</span><br><span class="line">                    <span class="comment">// 将文件流导向response:</span></span><br><span class="line">                    fs.createReadStream(filepath1).pipe(response);</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span>(fs.existsSync(filepath2))&#123;</span><br><span class="line">                    <span class="comment">// 没有出错并且文件存在:</span></span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">'200 '</span> + filepath2);</span><br><span class="line">                    <span class="comment">// 发送200响应:</span></span><br><span class="line">                    response.writeHead(<span class="number">200</span>);</span><br><span class="line">                    <span class="comment">// 将文件流导向response:</span></span><br><span class="line">                    fs.createReadStream(filepath2).pipe(response);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 出错了或者文件不存在:</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'404 '</span> + request.url);</span><br><span class="line">            <span class="comment">// 发送404响应:</span></span><br><span class="line">            response.writeHead(<span class="number">404</span>);</span><br><span class="line">            response.end(<span class="string">'404 Not Found'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(<span class="number">8080</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server is running at http://127.0.0.1:8080/'</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="错误优先的回调函数"><a href="#错误优先的回调函数" class="headerlink" title="错误优先的回调函数"></a>错误优先的回调函数</h2><p>node的回调函数第一个参数始终是一个错误对象。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(<span class="string">'rrr.txt'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">        <span class="built_in">console</span>.log(data.length + <span class="string">' bytes'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'utf-8:'</span> + data.toString(<span class="string">'UTF-8'</span>));      </span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="node-的-event-loop"><a href="#node-的-event-loop" class="headerlink" title="node 的 event loop"></a>node 的 event loop</h2><p>Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器环境。<br><img src="http://www.ruanyifeng.com/blogimg/asset/2014/bg2014100803.png" alt><br>（1）V8引擎解析JavaScript脚本。<br>（2）解析后的代码，调用Node API。<br>（3）libuv库负责Node API的执行。它将不同的任务分配给不同的线程，形成一个Event Loop（事件循环），以异步的方式将任务的执行结果返回给V8引擎。<br>（4）V8引擎再将结果返回给用户。<br>除了setTimeout和setInterval这两个方法，Node.js还提供了另外两个与”任务队列”有关的方法：process.nextTick和setImmediate。</p>
+<p>process.nextTick方法可以在当前”执行栈”的尾部—-下一次Event Loop（主线程读取”任务队列”）之前—-触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。<br>setImmediate方法则是在当前”任务队列”的尾部添加事件，也就是说，它指定的任务总是在下一次Event Loop时执行，这与setTimeout(fn, 0)很像。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">  process.nextTick(<span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="number">2</span>);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'TIMEOUT FIRED'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// TIMEOUT FIRED</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，由于process.nextTick方法指定的回调函数，总是在当前”执行栈”的尾部触发，所以不仅函数A比setTimeout指定的回调函数timeout先执行，而且函数B也比timeout先执行。这说明，如果有多个process.nextTick语句（不管它们是否嵌套），将全部在当前”执行栈”执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(<span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">  setImmediate(<span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="number">2</span>);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'TIMEOUT FIRED'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，setImmediate与setTimeout(fn,0)各自添加了一个回调函数A和timeout，都是在下一次Event Loop触发。那么，哪个回调函数先执行呢？答案是不确定。运行结果可能是1–TIMEOUT FIRED–2，也可能是TIMEOUT FIRED–1–2。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  setImmediate(<span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">    setImmediate(<span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="number">2</span>);&#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'TIMEOUT FIRED'</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// TIMEOUT FIRED</span></span><br><span class="line"><span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>setImmediate和setTimeout被封装在一个setImmediate里面，它的运行结果总是1–TIMEOUT FIRED–2，这时函数A一定在timeout前面触发。是因为setImmediate总是将事件注册到下一轮Event Loop，所以函数A和timeout是在同一轮Loop执行，而函数B在下一轮Loop执行。</p>
+<p>so.个process.nextTick语句总是在当前”执行栈”一次执行完，多个setImmediate可能则需要多次loop才能执行完。事实上，这正是Node.js 10.0版添加setImmediate方法的原因，否则像下面这样的递归调用process.nextTick，将会没完没了，主线程根本不会去读取”事件队列”！<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  process.nextTick(foo);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Node-js是单线程，如何实现多个同时的文件IO？"><a href="#Node-js是单线程，如何实现多个同时的文件IO？" class="headerlink" title="Node.js是单线程，如何实现多个同时的文件IO？"></a>Node.js是单线程，如何实现多个同时的文件IO？</h3><p>Node.js的fs调用V8的libuv中的uv_fs_open，绑定JS的callback到一个c的函数指针上，然后推入事件列表队列（QueueUserWorkItem），再根据操作系统，Windows下使用IOCP来完成异步IO，* NIX上使用libev来实现。说明Node.js从上层到V8是单线程，从libuv到IOCP或者libev是多线程IO读写。</p>
+<p>so, Node采用的是单线程的处理机制（所有的I/O请求都采用非阻塞的工作方式），至少从Node.js开发者的角度是这样的。 而在底层，Node.js借助libuv来作为抽象封装层， 从而屏蔽不同操作系统的差异，Node可以借助libuv来来实现多线程。</p>
+<h2 id="node-优缺点"><a href="#node-优缺点" class="headerlink" title="node 优缺点"></a>node 优缺点</h2><p>单线程：服务器无法接受新的请求，即阻塞式 I/O。<br>多线程：服务器每创建一个线程，每个线程大概会占用 2M 的系统内存，而且线程之间的切换也会降低服务器的处理效率。但并发量高的时候，请求仍然需要等待。成本效率低，且要考虑死锁，数据不一致等问题。<br>事件驱动I/O：所有请求以及同时传入的回调函数均发送至同一线程，该线程通常叫做 Event loop 线程，该线程负责在 I/O 执行完毕后，将结果返回给回调函数。 I/O 操作本身并不在该线程内执行，所以不会阻塞后续请求。但是维护事件队列也需要成本，再由于NodeJS是单线程，事件队列越长，得到响应的时间就越长，并发量上去还是会力不从心。</p>
+<p>优点：</p>
+<ol>
+<li>高并发（最重要的优点）</li>
+<li>适合I/O密集型应用</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不适合CPU密集型应用；CPU密集型应用给Node带来的挑战主要是：由于JavaScript单线程的原因，如果有长时间运行的计算（比如大循环），将会导致CPU时间片不能释放，使得后续I/O无法发起；<br>解决方法：分解大型运算任务为多个小任务，使得运算能够适时释放，不阻塞I/O调用的发起；</li>
+<li>只支持单核CPU，不能充分利用CPU</li>
+<li>可靠性低，一旦代码某个环节崩溃，整个系统都崩溃（单进程，单线程）<br>解决方案：（1）Ngix反向代理，负载均衡，开多个进程，绑定多个端口；（2）开多个进程监听同一个端口，使用cluster模块；</li>
+<li>开源组件库质量参差不齐，更新快，向下不兼容</li>
+<li>Debug不方便，错误没有stack trace</li>
+</ol>
+<h2 id="多核处理器模块cluster"><a href="#多核处理器模块cluster" class="headerlink" title="多核处理器模块cluster"></a>多核处理器模块cluster</h2><p>nodejs是一个单进程单线程的服务器引擎，不管有多么的强大硬件，只能利用到单个CPU进行计算。所以，有人开发了第三方的cluster，让node可以利用多核CPU实现并行。在V0.6.0版本，Nodejs内置了cluster的特性。<br>cluster模块，可以帮助我们简化多进程并行化程序的开发难度，轻松构建一个用于负载均衡的集群。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cluster = <span class="built_in">require</span>(<span class="string">'cluster'</span>);</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> numCPUs = <span class="built_in">require</span>(<span class="string">'os'</span>).cpus().length;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cluster.isMaster) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"master start..."</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Fork workers.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; numCPUs; i++) &#123;</span><br><span class="line">        cluster.fork();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cluster.on(<span class="string">'listening'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">worker,address</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'listening: worker '</span> + worker.process.pid +<span class="string">', Address: '</span>+address.address+<span class="string">":"</span>+address.port);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    cluster.on(<span class="string">'exit'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">worker, code, signal</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'worker '</span> + worker.process.pid + <span class="string">' died'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">        res.writeHead(<span class="number">200</span>);</span><br><span class="line">        res.end(<span class="string">"hello world\n"</span>);</span><br><span class="line">    &#125;).listen(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line">master start...</span><br><span class="line">listening: worker <span class="number">2368</span>, <span class="attr">Address</span>: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">57132</span></span><br><span class="line">listening: worker <span class="number">1880</span>, <span class="attr">Address</span>: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">57132</span></span><br><span class="line">listening: worker <span class="number">1384</span>, <span class="attr">Address</span>: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">57132</span></span><br><span class="line">listening: worker <span class="number">1652</span>, <span class="attr">Address</span>: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">57132</span></span><br><span class="line"><span class="comment">//master是总控节点，worker是运行节点。然后根据CPU的数量，启动worker。</span></span><br></pre></td></tr></table></figure></p>
+<p>原理：<br>每个worker进程通过使用child_process.fork()函数，基于IPC（Inter-Process Communication，进程间通信），实现与master进程间通信。</p>
+<p>当worker使用server.listen（）函数时 ，将参数序列传递给master进程。如果master进程已经匹配workers，会将传递句柄给工人。如果master没有匹配好worker，那么会创建一个worker，再传递并句柄传递给worker。</p>
+<p>在边界条件，有3个有趣的行为：<br>注：下面server.listen()，是对底层“http.Server–&gt;net.Server”类的调用。</p>
+<ol>
+<li>server.listen({fd: 7}):在master和worker通信过程，通过传递文件，master会监听“文件描述为7”，而不是传递“文件描述为7”的引用。</li>
+<li>server.listen(handle):master和worker通信过程，通过handle函数进行通信，而不用进程联系</li>
+<li>server.listen(0):在master和worker通信过程，集群中的worker会打开一个随机端口共用，通过socket通信，像上例中的57132<br>当多个进程都在 accept() 同样的资源的时候，操作系统的负载均衡非常高效。Node.js没有路由逻辑，worker之间没有共享状态。所以，程序要设计得简单一些，比如基于内存的session。</li>
+</ol>
+<p>因为workers都是独力运行的，根据程序的需要，它们可以被独立删除或者重启，worker并不相互影响。只要还有workers存活，则master将继续接收连接。Node不会自动维护workers的数目。我们可以建立自己的连接池。</p>
+<p>进行负载均衡：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cluster = <span class="built_in">require</span>(<span class="string">'cluster'</span>);</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> numCPUs = <span class="built_in">require</span>(<span class="string">'os'</span>).cpus().length;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cluster.isMaster) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'[master] '</span> + <span class="string">"start master..."</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; numCPUs; i++) &#123;</span><br><span class="line">         cluster.fork();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cluster.on(<span class="string">'listening'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">worker, address</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'[master] '</span> + <span class="string">'listening: worker'</span> + worker.id + <span class="string">',pid:'</span> + worker.process.pid + <span class="string">', Address:'</span> + address.address + <span class="string">":"</span> + address.port);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (cluster.isWorker) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'[worker] '</span> + <span class="string">"start worker ..."</span> + cluster.worker.id);</span><br><span class="line">    http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'worker'</span>+cluster.worker.id);</span><br><span class="line">        res.end(<span class="string">'worker'</span>+cluster.worker.id+<span class="string">',PID:'</span>+process.pid);</span><br><span class="line">    &#125;).listen(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/node/">node</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/11/29/AddTwoNumbers/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/11/29/AddTwoNumbers/">
+          两个数正序和逆序相加</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/12/27/vuexAndRedux/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2018/12/27/vuexAndRedux/">
+            flux/redux/mobx/vuex相关解析</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#简介"><span class="toc-inner-text">简介</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#模块化"><span class="toc-inner-text">模块化</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#如何寻址"><span class="toc-inner-text">如何寻址</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#全局变量"><span class="toc-inner-text">全局变量</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#基本模块"><span class="toc-inner-text">基本模块</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#fs"><span class="toc-inner-text">fs</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#url模块：解析url"><span class="toc-inner-text">url模块：解析url</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#path"><span class="toc-inner-text">path</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#http"><span class="toc-inner-text">http</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#错误优先的回调函数"><span class="toc-inner-text">错误优先的回调函数</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#node-的-event-loop"><span class="toc-inner-text">node 的 event loop</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#Node-js是单线程，如何实现多个同时的文件IO？"><span class="toc-inner-text">Node.js是单线程，如何实现多个同时的文件IO？</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#node-优缺点"><span class="toc-inner-text">node 优缺点</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#多核处理器模块cluster"><span class="toc-inner-text">多核处理器模块cluster</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

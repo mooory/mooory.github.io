@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  浅谈发布/订阅模式 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		浅谈发布/订阅模式
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Feb 26, 2019
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">2010
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>观察者模式时软件设计模式的一种。<br>在此种模式中，一个目标对象管理所有相依于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。此种模式通常被用来实时事件处理系统。</p>
+<a id="more"></a>
+<p>我们要实现用邮件订阅一个数据库，然后数据库有更新时就向我们发布信息。因此要实现：</p>
+<p>一个方法用于订阅————subscribe<br>一个方法用于发布————publish<br>一个方法用于取消订阅————unSubscribe<br>一个用来存储我们订阅信息的数据“注册表”对象————store</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> publisher = &#123;</span><br><span class="line">    store: &#123;&#125;,</span><br><span class="line">    subscribe: <span class="function"><span class="keyword">function</span> (<span class="params">type, fn</span>) </span>&#123;&#125;,</span><br><span class="line">    unSubscribe: <span class="function"><span class="keyword">function</span> (<span class="params">type, fnName</span>) </span>&#123;&#125;,</span><br><span class="line">    publish: <span class="function"><span class="keyword">function</span> (<span class="params">type, message</span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>store把它设计成一个对象是因为考虑到可能有更多类型的数据，比如 游戏，金融，投资理财等等，所以就把它设计成对象以key-value的形式存储订阅者, 比如：{‘game’:[],’monetary’:[]}该形式</li>
+<li>subscribe 则是publisher提供给我们的对其进行订阅的方法，参数是type和 fn。type就是我们订阅的类型，fn就是我们提供给publisher用于通知我的渠道 (邮箱)。在JavaScript中更多的是回调函数。</li>
+<li>unSubscribe 是publisher提供给我们的对其进行取消订阅的方法，参数是type和 fnName。type就不多说了，fnName则是我们提供给publisher用于取消订阅的标志，比如说邮箱，或者是回调函数的名字等等。</li>
+<li>publish说到比较重要的方法，这就是publisher向所有订阅者发布消息的方法。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> publisher = &#123;</span><br><span class="line">    store: &#123;&#125;,</span><br><span class="line">    subscribe: <span class="function"><span class="keyword">function</span> (<span class="params">type, fn</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Object</span>.keys(<span class="keyword">this</span>.store).indexOf(type) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.store[type].push(fn);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.store[type] = [];</span><br><span class="line">            <span class="keyword">this</span>.store[type].push(fn);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    unSubscribe: <span class="function"><span class="keyword">function</span> (<span class="params">type, fnName</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Object</span>.keys(<span class="keyword">this</span>.store).indexOf(type) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">let</span> index = <span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">this</span>.store[type].forEach(<span class="function"><span class="keyword">function</span> (<span class="params">func, idx</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (func.name === fnName) &#123;</span><br><span class="line">                    index = idx;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            index &gt; <span class="number">-1</span> ? <span class="keyword">this</span>.store[type].splice(index, <span class="number">1</span>) : <span class="literal">null</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    publish: <span class="function"><span class="keyword">function</span> (<span class="params">type, message</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Object</span>.keys(<span class="keyword">this</span>.store).indexOf(type) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> fn <span class="keyword">of</span> <span class="keyword">this</span>.store[type]) &#123;</span><br><span class="line">                fn(message)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进行调用：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> subscriberA = <span class="function"><span class="keyword">function</span> (<span class="params">message</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`A收到通知：<span class="subst">$&#123;message&#125;</span>`</span>)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> subscriberB = <span class="function"><span class="keyword">function</span> (<span class="params">message</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`B收到通知：<span class="subst">$&#123;message&#125;</span>`</span>)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> subscriberC = <span class="function"><span class="keyword">function</span> (<span class="params">message</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`C收到通知：<span class="subst">$&#123;message&#125;</span>`</span>)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">publisher.subscribe(<span class="string">'game'</span>, subscriberA);</span><br><span class="line">publisher.subscribe(<span class="string">'game'</span>, subscriberB);</span><br><span class="line">publisher.subscribe(<span class="string">'game'</span>, subscriberC);</span><br><span class="line"></span><br><span class="line">publisher.publish(<span class="string">'game'</span>, <span class="string">'we play'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>再取消订阅<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publisher.unSubscribe(<span class="string">'game'</span>, subscriberB.name)</span><br></pre></td></tr></table></figure></p>
+<p>B就接收不到数据了。</p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/js/">js</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2019/01/17/常见排序算法的原理与实现/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2019/01/17/常见排序算法的原理与实现/">
+          常见排序算法的原理与实现</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

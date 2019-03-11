@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  两个数正序和逆序相加 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		两个数正序和逆序相加
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Nov 29, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">3305
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>本章将介绍两个数正序和逆序相加两种方法。</p>
+<a id="more"></a>
+<p>##问题1：</p>
+<blockquote>
+<p>给定两个非空链表来表示两个非负整数。位数按照逆序方式存储，它们的每个节点只存储单个数字。将两数相加返回一个新的链表。<br>你可以假设除了数字 0 之外，这两个数字都不会以零开头。<br>示例：<br>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br>输出：7 -&gt; 0 -&gt; 8<br>原因：342 + 465 = 807</p>
+</blockquote>
+<p>##思考:</p>
+<ol>
+<li>342 + 465 = 807 也就是位位相加，注意一下每一位相加要加上进位，最后一次两个链表都到了结束,也要注意一下有没有进位:比如 99 + 1 = 100;</li>
+<li>注意链表怎么把每个节点连接起来：每次生成一个listnode元素，通过当前listnode的下一个元素(cur_node.next)连城链。</li>
+<li>最后返回一个列表，所以要给个头（result）指示列表起始的位置，再通过cur_node链接起链表串</li>
+</ol>
+<p>##代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Definition for singly-linked list.</span></span><br><span class="line"><span class="comment">* function ListNode(val) &#123;</span></span><br><span class="line"><span class="comment">*     this.val = val;</span></span><br><span class="line"><span class="comment">*     this.next = null;</span></span><br><span class="line"><span class="comment">* &#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> addTwoNumbers = <span class="function"><span class="keyword">function</span>(<span class="params">l1, l2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> val1 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> val2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> carry = <span class="number">0</span>;<span class="comment">//进位</span></span><br><span class="line">    <span class="keyword">var</span> result = <span class="literal">null</span>;<span class="comment">//返回值</span></span><br><span class="line">    <span class="keyword">var</span> cur_node = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> sumWithCarry = <span class="function"><span class="keyword">function</span>(<span class="params">sum</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            carry = <span class="number">1</span>;</span><br><span class="line">            sum = sum - <span class="number">10</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            carry = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(l1 || l2) &#123;</span><br><span class="line">        val1 = l1 ? l1.val : <span class="number">0</span>;</span><br><span class="line">        val2 = l2 ? l2.val : <span class="number">0</span>;</span><br><span class="line">        l1 = l1 ? l1.next : <span class="literal">null</span>;</span><br><span class="line">        l2 = l2 ? l2.next : <span class="literal">null</span>;</span><br><span class="line">        cur_node = <span class="keyword">new</span> ListNode(sumWithCarry(val1 + val2));</span><br><span class="line">        result = cur_node;</span><br><span class="line">        <span class="keyword">while</span>(l1 || l2) &#123;</span><br><span class="line">            val1 = l1 ? l1.val : <span class="number">0</span>;</span><br><span class="line">            val2 = l2 ? l2.val : <span class="number">0</span>;</span><br><span class="line">            l1 = l1 ? l1.next : <span class="literal">null</span>;</span><br><span class="line">            l2 = l2 ? l2.next : <span class="literal">null</span>;</span><br><span class="line">            cur_node.next = <span class="keyword">new</span> ListNode(sumWithCarry(val1 + val2 + carry));</span><br><span class="line">            cur_node = cur_node.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(carry != <span class="number">0</span>) &#123;</span><br><span class="line">            cur_node.next = <span class="keyword">new</span> ListNode(sumWithCarry(carry));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>##问题2:</p>
+<blockquote>
+<p>如果链表中的数字不是按逆序存储的呢？例如：<br>(3 -&gt; 4 -&gt; 2) + (4 -&gt; 6 -&gt; 5) = 8 -&gt; 0 -&gt; 7<br>符合人类观察的习惯: 342+465 = 807</p>
+</blockquote>
+<p>##思路:</p>
+<ol>
+<li>思路1也是位位相加, 将两个列表中的值存入数组中：result_array = [3+4, 4+6, 2+5] = [7,10, 7], 再考虑进位为题变成 [ 8, 0, 7 ], 最后生成listnode连接起来。但是这种方法在列表不等长的情况下是不可行了，可跳过去看最后。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> addTwoNumbers = <span class="function"><span class="keyword">function</span>(<span class="params">l1, l2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result_array = [];</span><br><span class="line">    <span class="keyword">var</span> result = <span class="literal">null</span>;<span class="comment">//返回值</span></span><br><span class="line">    <span class="keyword">var</span> cur_node = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">var</span> val1 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> val2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(l1 || l2) &#123;</span><br><span class="line">        val1 = l1 ? l1.val : <span class="number">0</span>;</span><br><span class="line">        val2 = l2 ? l2.val : <span class="number">0</span>;</span><br><span class="line">        l1 = l1 ? l1.next : <span class="literal">null</span>;</span><br><span class="line">        l2 = l2 ? l2.next : <span class="literal">null</span>;</span><br><span class="line">        result_array.push(val1 + val2)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = result_array.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">if</span>(result_array[i] &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            result_array[i] = result_array[i] - <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span>(i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                result_array[i <span class="number">-1</span>] = result_array[i<span class="number">-1</span>] + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result_array.unshift(<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( result_array.length )&#123;</span><br><span class="line">        result = <span class="keyword">new</span> ListNode(result_array[<span class="number">0</span>]);</span><br><span class="line">        cur_node = result;</span><br><span class="line">        <span class="keyword">if</span>(result_array.length &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= result_array.length - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">                cur_node.next = <span class="keyword">new</span> ListNode(result_array[i]);</span><br><span class="line">                cur_node = cur_node.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>乍看起来非常完美，但是遇到了一个极其重要的逻辑问题：在处理两列表等长时这个方法可行，但是不等长时相加错误，比如： [9,9] + [2] = [9, 11]=[1,0,1], 但上述办法算出来是[11,9]=[1,1,9],所以在两列表不等长时，必须将相加位位置对齐，在另一个列表元素数组前面加上很多0；但是我觉得这种方式时间复杂度太高了。</p>
+<ol start="2">
+<li>思路2：然后我想为什么不能将它们变为数字再进行相加呢？[9,9] + [2] = 99 + 2 = 101 = [1,0,1]</li>
+</ol>
+<p>##代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> addTwoNumbers = <span class="function"><span class="keyword">function</span>(<span class="params">l1, l2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result_array = [];</span><br><span class="line">    <span class="keyword">var</span> result_sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> result1 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> result2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="literal">null</span>;<span class="comment">//返回值</span></span><br><span class="line">    <span class="keyword">var</span> cur_node = <span class="literal">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> val1 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> val2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(l1 || l2) &#123;</span><br><span class="line">        val1 = l1 ? l1.val : <span class="number">0</span>;</span><br><span class="line">        l1 = l1 ? l1.next : <span class="literal">null</span>;</span><br><span class="line">        result1 = val1 + result1*<span class="number">10</span>;</span><br><span class="line">        val2 = l2 ? l2.val : <span class="number">0</span>;</span><br><span class="line">        l2 = l2 ? l2.next : <span class="literal">null</span>;</span><br><span class="line">        result2 = val2 + result2*<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    result_sum = result1 + result2;</span><br><span class="line">    <span class="keyword">while</span>(result_sum &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">        result_array.push(result_sum % <span class="number">10</span>);</span><br><span class="line">        result_sum = ~~(result_sum / <span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    result_array.push(result_sum);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( result_array.length )&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = result_array.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span>(i == result_array.length - <span class="number">1</span>) &#123;</span><br><span class="line">                result = <span class="keyword">new</span> ListNode(result_array[i]);</span><br><span class="line">                cur_node = result;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cur_node.next = <span class="keyword">new</span> ListNode(result_array[i]);</span><br><span class="line">                cur_node = cur_node.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/算法/">算法</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/11/16/webpack-common/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/11/16/webpack-common/">
+          常见webpack的loaders和插件</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/12/10/node/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2018/12/10/node/">
+            node第一步！</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#简介"><span class="toc-inner-text">简介</span></a></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

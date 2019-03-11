@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Flux/redux/mobx/vuex相关解析 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		flux/redux/mobx/vuex相关解析
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Dec 27, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">10118
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h1 id="状态管理是什么"><a href="#状态管理是什么" class="headerlink" title="状态管理是什么?"></a>状态管理是什么?</h1><p>在组件化开发的新前端发展史上，组件的发展提供了更好的编码效率，更好的代码阅读性，维护性，补充HTML5语义化标签的不足。前端承担了越来越多的任务，特别是做一个spa项目。然而我们父子组件沟通可以通过props和回调，但是在两个组件我们并不知道它们的调用关系的时候，如何进行沟通呢？<br><a id="more"></a><br>所以：引入了状态管理的概念。比如在react中，通信解决方式有状态提升和发布、订阅，状态提升又分为container组件定义和使用context属性传递：</p>
+<ol>
+<li>container组件是说把两个组件需要共享的状态提升到一个共同的根组件上，通过 props 传递 state 以及 changeState 的方法。</li>
+<li>context属性传递是说在使用React.createContext()声明了context对象，这个Context对象包含两个组件，<provider>和<consumer>。使用这个对象的provider包装需要共用这个context的父组件，把要传递的值通过value属性传递给子组件；使用这个对象的consumer包装要使用context属性的子组件。</consumer></provider></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ThemeContext = React.createContext(&#123;</span><br><span class="line">  background: <span class="string">'red'</span>,</span><br><span class="line">  color: <span class="string">'white'</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ThemeContext.Provider value=&#123;&#123;<span class="attr">background</span>: <span class="string">'green'</span>, <span class="attr">color</span>: <span class="string">'white'</span>&#125;&#125;&gt;</span><br><span class="line">        &lt;Header /&gt;</span><br><span class="line">      &lt;<span class="regexp">/ThemeContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class Header extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  render () &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;Title&gt;Hello React Context API&lt;/</span>Title&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Title</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ThemeContext.Consumer&gt;</span><br><span class="line">        &#123;context =&gt; (</span><br><span class="line">          &lt;h1 style=&#123;&#123;<span class="attr">background</span>: context.background, <span class="attr">color</span>: context.color&#125;&#125;&gt;</span><br><span class="line">            &#123;<span class="keyword">this</span>.props.children&#125;</span><br><span class="line">          &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">        )&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>ThemeContext.Consumer&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以不使用consumer</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Title</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> contextType = ThemeContext;</span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;h1 style=&#123;&#123;<span class="attr">background</span>: <span class="keyword">this</span>.context.background, <span class="attr">color</span>: <span class="keyword">this</span>.context.color&#125;&#125;&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.props.children&#125;</span><br><span class="line">      &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>它会使组件更新更加困难。这个provider有更新，它的子代所有组件会重新渲染。不受shouldComponentUpdate方法约束，更改是通过使用与Object.is相同的算法比较新值和旧值来确定的。<br>旧版本的Context的更新需要依赖setState()，是不可靠的，不过这个问题在新版的API中得以解决。<br>但如果开发组件过程中可以确保组件的内聚性，可控可维护，不破坏组件树的依赖关系，影响范围小，可以考虑使用Context解决一些问题。</p>
+<blockquote>
+<p>context运用于react-router: <a href="https://www.jianshu.com/p/eba2b76b290b" target="_blank" rel="noopener">https://www.jianshu.com/p/eba2b76b290b</a><br>如果组件的功能不能单靠组件自身来完成，还需要依赖额外的子组件，那么可以利用Context构建一个由多个子组件组合的组件。为了让相关的子组件一同发挥作用，react-router的实现方案是利用Context在<code>&lt;Router /&gt;</code>、<code>&lt;Link /&gt;</code>以及<code>&lt;Route /&gt;</code>这些相关的组件之间共享一个router，进而完成路由的统一操作和管理。<br><code>&lt;Router /&gt;</code>的核心就是为子组件提供一个带有router属性的Context，同时监听history，一旦history发生变化，便通过setState()触发组件重新渲染。<br><code>&lt;Link /&gt;</code>的核心就是渲染<code>&lt;a&gt;</code>标签，拦截<code>&lt;a&gt;</code>标签的点击事件，然后通过<code>&lt;Router /&gt;</code>共享的router对history进行路由操作，进而通知<code>&lt;Router /&gt;</code>重新渲染。<br><code>&lt;Route /&gt;</code>有一部分源码与<code>&lt;Router /&gt;</code>相似，可以实现路由的嵌套，但其核心是通过Context共享的router，判断是否匹配当前路由的路径，然后渲染组件。</p>
+</blockquote>
+<ol start="3">
+<li>发布订阅就是一个组件订阅，一个组件发布。</li>
+</ol>
+<p>因此，出现了独立管理状态的地方。可以实现数据的订阅、发布。如flux/redux/vuex/mobx。他们有什么区别呢？</p>
+<p>一句话总结：<br>它们都是基于单向数据流的状态管理方法论。Flux最早提出，作为对传统前端MVC的一种改进（我不认为是颠覆）。Redux深受Flux的启发，又加入了函数式编程的思想，算是Flux的极大增强版本。Vuex可以说是基于Flux并且吸收了Redux的一些特点，但它与Vue是紧密捆绑的。Redux其实除了在React中广泛应用。</p>
+<h2 id="flux"><a href="#flux" class="headerlink" title="flux"></a>flux</h2><p><img src="https://img-blog.csdn.net/20180210171200183?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvTmFwb2xlb254eHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt></p>
+<p>View: 确定相应的Store以及监听其变化来更新视图。发起Action。<br>Action:每个Action都是一个对象，包含一个actionType属性（说明动作的类型）和一些其他属性（用来传递数据）<br>Dispatcher:全局唯一。逻辑简单，只用来派发action去相应的store。通过 AppDispatcher.register() 来登记各种Action的回调函数。<br>Store: 存放view中的数据。发送change事件，通过view中定义的handler捕捉变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">//store</span><br><span class="line">var EventEmitter = require(&apos;events&apos;).EventEmitter;</span><br><span class="line">var ListStore = assign(&#123;&#125;, EventEmitter.prototype, &#123;</span><br><span class="line">  // data in View</span><br><span class="line">  items: [],</span><br><span class="line">  emitChange: function () &#123;</span><br><span class="line">    this.emit(&apos;change&apos;);</span><br><span class="line">  &#125;,</span><br><span class="line">  addChangeListener: function(callback) &#123;</span><br><span class="line">    this.on(&apos;change&apos;, callback);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// view</span><br><span class="line">ListStore.addChangeListener(this._onChange);  //如果listStorage值变化change，调用回调this._onChange</span><br><span class="line"></span><br><span class="line">var ButtonActions = &#123;</span><br><span class="line">  addNewItem: function (text) &#123;</span><br><span class="line">    AppDispatcher.dispatch(&#123;</span><br><span class="line">      actionType: &apos;ADD_NEW_ITEM&apos;,</span><br><span class="line">      text: text</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ButtonActions.addNewItem(&apos;new item&apos;);</span><br><span class="line"></span><br><span class="line">//这里是dispatcher</span><br><span class="line">// dispatcher/AppDispatcher.js 全局唯一</span><br><span class="line">var Dispatcher = require(&apos;flux&apos;).Dispatcher;</span><br><span class="line">module.exports = new Dispatcher();</span><br><span class="line"></span><br><span class="line">//注册action回调函数</span><br><span class="line">AppDispatcher.register(function (action) &#123;</span><br><span class="line">  switch(action.actionType) &#123;</span><br><span class="line">    case &apos;ADD_NEW_ITEM&apos;:</span><br><span class="line">      ListStore.addNewItemHandler(action.text);</span><br><span class="line">      ListStore.emitChange(); //通知listStorage触发change, 调用注册的回调</span><br><span class="line">      break;</span><br><span class="line">    default:</span><br><span class="line">      // no op</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>可以看出，flux更新逻辑在store。dispatcher只是将action进行处理，然后调用store里面的方法去更新数据。</p>
+<h2 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h2><p><img src="https://img-blog.csdn.net/20180210192900281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvTmFwb2xlb254eHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt><br>Redux ＝ Reducer ＋ Flux</p>
+<ol>
+<li>Redux将Flux中的Dispatcher并入了Store。也可以理解为Redux没Dispatcher。Redux的设想是用户永远不会变动数据，应该在reducer中返回新的对象来作为应用的新状态。</li>
+<li>Redux增加了Reducer.<br>注：通过代码对比的直观感受就是Flux中的view需要知道具体对应哪个store。而在Redux中，store成为一个被所有view共享的公共对象，view只需要通过store.dispatch()来发送action，无需关心具体处理函数。</li>
+</ol>
+<p>View: 通过全局唯一的store dispatch action 以及获取最新state<br>Action: 与flux一致。<br>reducer: 是current state 和 action 为参数计算new state的纯函数。<br>Store: 全局唯一。Dispatcher功能已被整合进store：store.dispatch()。state 一旦有变化，store 就会调用通过store.subscribe()注册的回调函数（一般是render）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">const createStore = (reducer) =&gt; &#123;</span><br><span class="line">    let state; // 定义存储的state</span><br><span class="line">    const listeners = [];</span><br><span class="line"></span><br><span class="line">    //  getState的作用很简单就是返回当前是state</span><br><span class="line">    const getState = () =&gt; state;</span><br><span class="line"></span><br><span class="line">    //定义一个派发函数</span><br><span class="line">    //当在外界调用此函数的时候，会修改状态</span><br><span class="line">    const dispatch = (action) =&gt; &#123;</span><br><span class="line">        //调用reducer函数修改状态，返回一新的状态并赋值给这个局部状态变量</span><br><span class="line">        state = reducer(state, action);</span><br><span class="line">        //依次调用监听函数，通知所有的监听函数</span><br><span class="line">        listeners.forEach(listener =&gt; listener());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //订阅此状态的函数，当状态发生变化的时候记得调用此监听函数</span><br><span class="line">    const subscribe = function(listener) &#123;</span><br><span class="line">        //先把此监听 加到数组中</span><br><span class="line">        listeners.push(listener);</span><br><span class="line"></span><br><span class="line">        //返回一个函数，当调用它的时候将此监听函数从监听数组移除</span><br><span class="line">        return function() &#123;</span><br><span class="line">            listeners = listeners.filter(l =&gt; l !== listener);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //默认调用一次dispatch给state赋一个初始值</span><br><span class="line">    dispatch();</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        getState,</span><br><span class="line">        dispatch,</span><br><span class="line">        subscribe</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 订阅状态变化事件，当状态变化时用监听函数</span><br><span class="line">store.subscribe(render);</span><br><span class="line">store.dispatch(&#123;</span><br><span class="line">    type: &apos;add&apos;,</span><br><span class="line">    payload: &apos;3&apos;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">createStore(reducer);</span><br></pre></td></tr></table></figure>
+<p>[三大原则，store 唯一，state 只读， reducer 纯函数。]</p>
+<p>所以实现我们大部分使用：redux + react-redux + redux-chunk + redux-immutable 。用来与react框架进行交互。redux的dispatch默认只能传输action, 引用redux-thunk中间件，可以让action创建函数先不返回一个action对象，而是返回一个函数，函数传递两个参数(dispatch,getState)，在函数体内进行业务逻辑的封装。通过使用指定的 middleware，action 创建函数除了返回 action 对象外还可以返回函数。以此来让你 dispatch 一些除了 action 以外的其他内容，例如：函数或者 Promise。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const mapStateToProps = state =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        todos: state.get(&apos;todos&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mapDispatchToProps = dispatch =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        addTodo: info =&gt; &#123;</span><br><span class="line">            dispatch(addTodo(info))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps,mapDispatchToProps)(TodoList);</span><br><span class="line"></span><br><span class="line">//使用指定的 React Redux 组件 &lt;Provider&gt; 来 魔法般的 让所有容器组件都可以访问 store，而不必显示地传递它。</span><br><span class="line">&lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">&lt;/Provider&gt;</span><br></pre></td></tr></table></figure>
+<p>React Redux 组件 <provider> 来魔法般的让所有容器组件都可以访问 store，而不必显示地传递它。</provider></p>
+<p>容器组件就是使用 store.subscribe() 从 Redux state 树中读取部分数据，并通过 props 来把这些数据提供给要渲染的组件。<br>你可以手工来开发容器组件，但建议使用 React Redux 库的 connect() 方法来生成，这个方法做了性能优化来避免很多不必要的重复渲染。</p>
+<p>connect 出来的 HOC， 通过 Provider 提供的 context 上的 store，在内部向 store subscribe 了 onStateChange 事件。只要派发了 action，就会触发一次 onStateChange 事件，HOC 就能感知 store 的更新再根据 onStateChange 的结果决定是否要 update。</p>
+<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><p><img src="https://raw.githubusercontent.com/vuejs/vuex/dev/docs/.vuepress/public/vuex.png" alt></p>
+<p>只用来读取的状态集中放在store中；改变状态的方式是提交mutations，这是个同步的事物；异步逻辑应该封装在action中。</p>
+<p>state<br>Vuex 使用单一状态树,即每个应用将仅仅包含一个store 实例，但单一状态树和模块化并不冲突。存放的数据状态，不可以直接修改里面的数据。<br>mutations<br>mutations定义的方法动态修改Vuex 的 store 中的状态或数据。mutation 必须是同步函数。<br>getters<br>类似vue的计算属性，主要用来过滤一些数据。<br>action<br>actions可以理解为通过将mutations里面处理数据的方法变成可异步的处理数据的方法，简单的说就是异步操作数据。view 层通过 store.dispath 来分发 action。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(storeSettings)</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  router,</span><br><span class="line">  store,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//这个storeSettings</span></span><br><span class="line"><span class="keyword">const</span> storeSettings = &#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    selfInfo: &#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    <span class="comment">//会根据依赖缓存起来</span></span><br><span class="line">    getType: state = &gt; &#123;</span><br><span class="line">      <span class="keyword">return</span> state.type</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    updateSelfInfo(state, payload) &#123;</span><br><span class="line">      state.selfInfo = payload;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    Login_Action(&#123;commit&#125;, userInfo) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;       </span><br><span class="line">        (<span class="keyword">async</span> ()=&gt;&#123;</span><br><span class="line">          <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">const</span> data = <span class="keyword">await</span> getMyBriefInfo();</span><br><span class="line">            commit(<span class="string">'updateSelfInfo'</span>, data);</span><br><span class="line">            resolve();</span><br><span class="line">          &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="keyword">let</span> e_j = (e &amp;&amp; <span class="built_in">JSON</span>.parse(e) &amp;&amp; <span class="built_in">JSON</span>.parse(e).message) ? <span class="built_in">JSON</span>.parse(e).message : <span class="string">'登录失败，请稍后重试！'</span>;</span><br><span class="line">            commit(<span class="string">'clearToken'</span>);</span><br><span class="line">            reject(e_j);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)();     </span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//组件中使用</span></span><br><span class="line"><span class="keyword">this</span>.$store.dispatch(<span class="string">'Login_Action'</span>, &#123;</span><br><span class="line">  userName, password, checked, code</span><br><span class="line">&#125;).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  </span><br><span class="line">&#125;, (info) =&gt; &#123;</span><br><span class="line"> </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.$store.state.selfInfo  <span class="comment">//获取state</span></span><br><span class="line"><span class="keyword">this</span>.$store.getters.getType  <span class="comment">//获取getters</span></span><br><span class="line"><span class="keyword">this</span>.$store.commit(<span class="string">'updateSelfInfo'</span>, data)</span><br></pre></td></tr></table></figure>
+<p>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</p>
+<p>局部模块：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  state: &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      <span class="comment">// 这里的 `state` 对象是模块的局部状态</span></span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  getters: &#123;</span><br><span class="line">    <span class="comment">//根节点状态会作为第三个参数暴露出来</span></span><br><span class="line">    doubleCount (state, getters, rootState) &#123;</span><br><span class="line">      <span class="keyword">return</span> state.count * <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  actions: &#123;</span><br><span class="line">    <span class="comment">//局部状态通过 context.state 暴露出来，根节点状态则为 context.rootState</span></span><br><span class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</span><br><span class="line">      <span class="keyword">if</span> ((state.count + rootState.count) % <span class="number">2</span> === <span class="number">1</span>) &#123;</span><br><span class="line">        commit(<span class="string">'increment'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a: moduleA,</span><br><span class="line">    b: moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a <span class="comment">// -&gt; moduleA 的状态</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.$store.dispatch(<span class="string">'a/incrementIfOddOnRootSum'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>使用mutation来替换redux中的reducer<br>Vuex有自动渲染的功能，所以无需要专门监听state。<br>Vuex中的action是一个函数集合对象，用于async/sync commit mutaions. 和Redux或者Flux中的action只是简单对象有本质不同，只是叫了一个相同名字。 </p>
+<h2 id="mobx"><a href="#mobx" class="headerlink" title="mobx"></a>mobx</h2><p>通过observable观察某一个变量，当该变量产生变化时，对应的autorun内的回调函数就会发生变化。 Observable 、Computed 依赖state产生 obserable 、Autonrun、Action、Observer，</p>
+<p><img src="http://blog.codingplayboy.com/wp-content/uploads/2018/03/mobx-flow.png" alt></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;observable, autorun&#125; <span class="keyword">from</span> <span class="string">'mobx'</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> todoStore = observable(&#123;</span><br><span class="line">    <span class="comment">/* some observable state */</span></span><br><span class="line">    todos: [],</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/* a derived value */</span></span><br><span class="line">    <span class="keyword">get</span> completedCount() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.completed).length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">/* a function that observes the state */</span></span><br><span class="line">autorun(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Completed %d of %d items"</span>,</span><br><span class="line">        todoStore.completedCount,</span><br><span class="line">        todoStore.todos.length</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">/* ..and some actions that modify the state */</span></span><br><span class="line">todoStore.todos[<span class="number">0</span>] = &#123;</span><br><span class="line">    title: <span class="string">"Take a walk"</span>,</span><br><span class="line">    completed: <span class="literal">false</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// -&gt; synchronously prints: 'Completed 0 of 1 items'</span></span><br><span class="line"> </span><br><span class="line">todoStore.todos[<span class="number">0</span>].completed = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<p>Action：定义改变状态的动作函数，包括如何变更状态；<br>Store：集中管理模块状态（State）和动作（action）；<br>Derivation（衍生）：从应用状态中派生而出，且没有任何其他影响的数据，我们称为derivation（衍生），衍生在以下情况下存在：<br>        用户界面；<br>        衍生数据；<br>        衍生主要有两种：<br>        Computed Values（计算值）：计算值总是可以使用纯函数（pure function）从当前可观察状态中获取；<br>        Reactions（反应）：反应指状态变更时需要自动发生的副作用，这种情况下，我们需要实现其读写操作；</p>
+<p>react-mobx而言，同样需要两个步骤：</p>
+<p>Provider：使用mobx-react提供的Provider将所有stores注入应用；<br>使用inject将特定store注入某组件，store可以传递状态或action；然后使用observer保证组件能响应store中的可观察对象（observable）变更，即store更新，组件视图响应式更新。</p>
+<h2 id="mobx-和-redux-比较"><a href="#mobx-和-redux-比较" class="headerlink" title="mobx 和 redux 比较"></a>mobx 和 redux 比较</h2><ul>
+<li>redux对象通常不可变（不能直接操作状态对象，而总是在原来状态对象基础上返回一个新的状态对象，这样就能很方便的返回应用上一状态）。而Mobx中可以直接使用新值更新状态对象。</li>
+<li>redux单一store,mobx多个</li>
+<li>redux函数式编程，mobx面对对象</li>
+<li>Redux需要手动追踪所有状态对象的变更，Redux需要手动追踪所有状态对象的变更</li>
+<li>运用到react上，mobx-react和react-redux</li>
+</ul>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/react/">react</a> <a class="tag-link" href="/tags/vue/">vue</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/12/10/node/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/12/10/node/">
+          node第一步！</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2019/01/09/medianTwoArray/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2019/01/09/medianTwoArray/">
+            求取两个排序数组的中位数</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#状态管理是什么"><span class="toc-inner-text">状态管理是什么?</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#flux"><span class="toc-inner-text">flux</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#redux"><span class="toc-inner-text">redux</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#vuex"><span class="toc-inner-text">vuex</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#mobx"><span class="toc-inner-text">mobx</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#mobx-和-redux-比较"><span class="toc-inner-text">mobx 和 redux 比较</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>

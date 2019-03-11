@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  常见Webpack的loaders和插件 |   Mooory-Site </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <!--<img class="header-logo-img" src="/images/logo.png"/>-->首页
+      </a>
+      
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<p class="post-title">	
+		常见webpack的loaders和插件
+	</p>
+
+	<div class="post-info">	
+		<span class="post-info-entry">
+			Nov 16, 2018
+		</span>
+
+		
+		
+			<i class="iconfont icon-words"></i>
+			<span class="post-info-entry">3642
+			</span>
+		
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>本文将介绍一些常见webpack的loaders和插件，以供参考学习~<br><a id="more"></a></p>
+<h2 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h2><h3 id="css-loader"><a href="#css-loader" class="headerlink" title="css loader"></a>css loader</h3><p>loader的加载顺序是从右往左。</p>
+<h4 id="css-loader-1"><a href="#css-loader-1" class="headerlink" title="css-loader"></a>css-loader</h4><p>css-loader 解释(interpret) @import 和 url() ，会 import/require() 后再解析(resolve)它们。<br>css-loader以字符串形式读取CSS文件。<br>查询参数 modules 会启用 CSS 模块规范, 这将启用局部作用域 CSS。你可以使用 :global(…) 或 :global 关闭选择器 and/or 规则。</p>
+<h4 id="style-loader"><a href="#style-loader" class="headerlink" title="style-loader"></a>style-loader</h4><p>获取这些样式并创建 style 中的标记 head 包含这些样式的元素。<br>在使用局部作用域 CSS 时，模块导出生成的（局部）标识符(identifier)。</p>
+<h4 id="sass-loader"><a href="#sass-loader" class="headerlink" title="sass-loader"></a>sass-loader</h4><p>将sass转换成css</p>
+<h4 id="postcss-loader"><a href="#postcss-loader" class="headerlink" title="postcss-loader"></a>postcss-loader</h4><p>PostCSS是基于js插件去转换css的一个工具。这些插件支持变量，mixin，未来的css语法，在线图片甚至更多。</p>
+<p>常用的插件有：autoprefixer，cssnano (压缩css代码)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    loader: <span class="string">'postcss-loader'</span>,</span><br><span class="line">    options: &#123;</span><br><span class="line">        plugins: <span class="function"><span class="params">()</span> =&gt;</span> [</span><br><span class="line">            <span class="built_in">require</span>(<span class="string">'cssnano'</span>)(&#123;</span><br><span class="line">                preset: <span class="string">'default'</span>,</span><br><span class="line">            &#125;),</span><br><span class="line">            <span class="built_in">require</span>(<span class="string">'autoprefixer'</span>)(&#123; <span class="attr">browsers</span>: [<span class="string">'last 10 Chrome versions'</span>, <span class="string">'last 5 Firefox versions'</span>, <span class="string">'Safari &gt;= 6'</span>, <span class="string">'ie &gt; 8'</span>] &#125;)</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="文件和图片-loader"><a href="#文件和图片-loader" class="headerlink" title="文件和图片 loader"></a>文件和图片 loader</h3><h4 id="file-loader"><a href="#file-loader" class="headerlink" title="file-loader"></a>file-loader</h4><p>默认情况下，生成的文件的文件名就是文件内容的 MD5 哈希值并会保留所引用资源的原始扩展名。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use: <span class="string">'file-loader?name=[hash].[ext]'</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="url-loader"><a href="#url-loader" class="headerlink" title="url-loader"></a>url-loader</h4><p>url-loader 功能类似于 file-loader，但是在文件大小（单位 byte）低于指定的限制时，可以返回一个 DataURL。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use: <span class="string">'url-loader?limit=1024'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="babel-loader"><a href="#babel-loader" class="headerlink" title="babel-loader"></a>babel-loader</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">      exclude: <span class="regexp">/(node_modules|bower_components)/</span>,</span><br><span class="line">      use: &#123;</span><br><span class="line">        loader: <span class="string">'babel-loader?cacheDirectory=true'</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">          presets: [<span class="string">'@babel/preset-env'</span>],</span><br><span class="line">          plugins: [<span class="built_in">require</span>(<span class="string">'@babel/plugin-transform-object-rest-spread'</span>)]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此 loader 也支持下面这些 loader 特定(loader-specific)的选项：</p>
+<p>cacheDirectory：默认值为 false。当有设置时，指定的目录将用来缓存 loader 的执行结果。之后的 webpack 构建，将会尝试读取缓存，来避免在每次执行时，可能产生的、高性能消耗的 Babel 重新编译过程(recompilation process)。如果设置了一个空值 (loader: ‘babel-loader?cacheDirectory’) 或者 true (loader: babel-loader?cacheDirectory=true)，loader 将使用默认的缓存目录 node_modules/.cache/babel-loader，如果在任何根目录下都没有找到 node_modules 目录，将会降级回退到操作系统默认的临时文件目录。</p>
+<p>cacheIdentifier：默认是一个由 babel-core 版本号，babel-loader 版本号，.babelrc 文件内容（存在的情况下），环境变量 BABEL_ENV 的值（没有时降级到 NODE_ENV）组成的字符串。可以设置为一个自定义的值，在 identifier 改变后，强制缓存失效。</p>
+<p>forceEnv：默认将解析 BABEL_ENV 然后是 NODE_ENV。允许你在 loader 级别上覆盖 BABEL_ENV/NODE_ENV。对有不同 babel 配置的，客户端和服务端同构应用非常有用。</p>
+<h2 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h2><h3 id="CommonsChunkPlugin"><a href="#CommonsChunkPlugin" class="headerlink" title="CommonsChunkPlugin"></a>CommonsChunkPlugin</h3><p>通过将公共模块拆出来，最终合成的文件能够在最开始的时候加载一次，便存到缓存中供后续使用。这个带来速度上的提升，因为浏览器会迅速将公共的代码从缓存中取出来，而不是每次访问一个新页面时，再去加载一个更大的文件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">  vendor: [<span class="string">"jquery"</span>, <span class="string">"other-lib"</span>],</span><br><span class="line">  app: <span class="string">"./entry"</span></span><br><span class="line">&#125;,</span><br><span class="line">plugins: [</span><br><span class="line">  <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">    name: <span class="string">"vendor"</span>,</span><br><span class="line">    <span class="comment">// filename: "vendor.js"</span></span><br><span class="line">    <span class="comment">// (给 chunk 一个不同的名字)</span></span><br><span class="line"></span><br><span class="line">    minChunks: <span class="literal">Infinity</span>,</span><br><span class="line">    <span class="comment">// (随着 entry chunk 越来越多，</span></span><br><span class="line">    <span class="comment">// 这个配置保证没其它的模块会打包进 vendor chunk)</span></span><br><span class="line">  &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>filename：可以指定提取出的公共代码的文件名称，可以使用output配置项中文件名的占位符。未定义时使用name作为文件名。</p>
+<h3 id="ExtractTextWebpackPlugin"><a href="#ExtractTextWebpackPlugin" class="headerlink" title="ExtractTextWebpackPlugin"></a>ExtractTextWebpackPlugin</h3><p>它会将所有的入口 chunk(entry chunks)中引用的 * .css，移动到独立分离的 CSS 文件。因此，你的样式将不再内嵌到 JS bundle 中，而是会放到一个单独的 CSS 文件（即 styles.css）当中。 如果你的样式文件大小较大，这会做更快提前加载，因为 CSS bundle 会跟 JS bundle 并行加载。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">"extract-text-webpack-plugin"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          fallback: <span class="string">"style-loader"</span>,</span><br><span class="line">          use: <span class="string">"css-loader"</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ExtractTextPlugin(<span class="string">"styles.css"</span>),</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>filename : 生成文件的文件名。可能包含 [name], [id] and [contenthash]<br>allChunks : 从所有额外的 chunk(additional chunk) 提取（默认情况下，它仅从初始chunk(initial chunk) 中提取）</p>
+<p>当使用 CommonsChunkPlugin 并且在公共 chunk 中有提取的 chunk（来自ExtractTextPlugin.extract）时，allChunks 必须设置为 true</p>
+<h3 id="HotModuleReplacementPlugin"><a href="#HotModuleReplacementPlugin" class="headerlink" title="HotModuleReplacementPlugin"></a>HotModuleReplacementPlugin</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.HotModuleReplacementPlugin(&#123;</span><br><span class="line">  <span class="comment">// Options...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>可以使用webpack-dev-server –hot 自动调用这个plugin</p>
+<h3 id="UglifyjsWebpackPlugin"><a href="#UglifyjsWebpackPlugin" class="headerlink" title="UglifyjsWebpackPlugin"></a>UglifyjsWebpackPlugin</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> UglifyJsPlugin(&#123;</span><br><span class="line">    cache: <span class="literal">true</span>,</span><br><span class="line">    parallel: os.cpus().length</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+<p>parallel: 使用多进程并行运行来提高构建速度。并行化可以显著地加速构建，因此强烈推荐使用并行化。默认并发运行次数:os.cpus().length- 1。</p>
+<h3 id="HtmlWebpackPlugin"><a href="#HtmlWebpackPlugin" class="headerlink" title="HtmlWebpackPlugin"></a>HtmlWebpackPlugin</h3><p>HtmlWebpackPlugin简化了HTML文件的创建，以便为你的webpack包提供服务。这对于在文件名中包含每次会随着编译而发生变化哈希的 webpack bundle 尤其有用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">new</span> HtmlwebpackPlugin(&#123;</span><br><span class="line">    filename: <span class="string">'../templates/index.html'</span>,</span><br><span class="line">    template: <span class="string">'src/index.ejs'</span>,</span><br><span class="line">    title: <span class="string">'name'</span>,</span><br><span class="line">    favicon: path.resolve(__dirname, <span class="string">"src/asserts/image/favicon.ico"</span>)</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        	
+
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/11/11/webpack-theory/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/11/11/webpack-theory/">
+          webpack原理呀！</a>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/11/29/AddTwoNumbers/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <a class="post-nav-title" href="/2018/11/29/AddTwoNumbers/">
+            两个数正序和逆序相加</a>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				Contents
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#loaders"><span class="toc-inner-text">loaders</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#css-loader"><span class="toc-inner-text">css loader</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#css-loader-1"><span class="toc-inner-text">css-loader</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#style-loader"><span class="toc-inner-text">style-loader</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#sass-loader"><span class="toc-inner-text">sass-loader</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#postcss-loader"><span class="toc-inner-text">postcss-loader</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#文件和图片-loader"><span class="toc-inner-text">文件和图片 loader</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#file-loader"><span class="toc-inner-text">file-loader</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#url-loader"><span class="toc-inner-text">url-loader</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#babel-loader"><span class="toc-inner-text">babel-loader</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#plugins"><span class="toc-inner-text">plugins</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#CommonsChunkPlugin"><span class="toc-inner-text">CommonsChunkPlugin</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#ExtractTextWebpackPlugin"><span class="toc-inner-text">ExtractTextWebpackPlugin</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#HotModuleReplacementPlugin"><span class="toc-inner-text">HotModuleReplacementPlugin</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#UglifyjsWebpackPlugin"><span class="toc-inner-text">UglifyjsWebpackPlugin</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#HtmlWebpackPlugin"><span class="toc-inner-text">HtmlWebpackPlugin</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2017-
+		
+		2019		
+	
+		Mooory
+		<br>
+		Theme Nayo
+		</div>			
+	 
+</footer>
+Theme Nayo   
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>
